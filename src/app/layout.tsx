@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body
-        className="bg-gray-100"
+        className="bg-gray-100 dark:bg-zinc-900"
       >
         <ThemeProvider
           attribute="class"
