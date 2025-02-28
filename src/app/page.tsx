@@ -1,4 +1,5 @@
 import BannerCarousel from '@/components/Home/BannerCarousel'
+import RecentlyViewed from '@/components/Home/favorite/RecentlyViewed'
 import { RecipeFilters } from '@/components/Home/recipeFilters'
 import { RecipeList } from '@/components/Home/recipes'
 
@@ -16,6 +17,7 @@ const Home = () => {
         </main>
         <aside className="hidden lg:block w-[350px] space-y-6">
           <HomeSearch />
+          <RecentlyViewed />
         </aside>
       </div>
     </div>
