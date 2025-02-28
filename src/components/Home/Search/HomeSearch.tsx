@@ -8,7 +8,7 @@ const HomeSearch = () => {
     const [search, setSearch] = useState<string>("");
         
     return (
-        <form className='mt-4 flex flex-col gap-1 bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md dark:ring-1 dark:ring-gray-700'>
+        <form className='mt-4 flex flex-col gap-4 bg-white dark:bg-transparent p-6 rounded-xl shadow-md dark:border-[1px]   '>
             <div className='relative rounded-xl shadow-md h-12 text-black'>
                 <CiSearch className='absolute top-[50%] left-[5%] translate-y-[-50%]' size={24} />
                 <input onChange={(e) => setSearch(e.target.value)} value={search} type="text" className='w-full h-full px-12 rounded-xl border bg-gray-100 focus:outline-blue-500' />

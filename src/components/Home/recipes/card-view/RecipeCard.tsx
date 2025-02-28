@@ -6,7 +6,7 @@ import RecipeDetails from './RecipeDetailsl';
 
 const RecipeCard = ({ recipe }) => {
   return (
-    <div className='w-full h-full border border-gray-200 shadow-md rounded-md flex flex-col justify-start '>
+    <div className='w-full bg-white dark:bg-transparent h-full dark:border-[1px]  shadow-md rounded-md flex flex-col justify-start '>
       <RecipeImage src={recipe.image} alt={recipe.title} />
       <div className='p-2'>
         <RecipeTitle title={recipe.title} />
