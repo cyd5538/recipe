@@ -15,8 +15,8 @@ const DropdownMenu = <T extends { value: string; label: string; icon?: JSX.Eleme
 }: DropdownMenuProps<T>) => {
   return (
     <ul
-      className={`absolute left-0 mt-2 w-full border-2 rounded-xl shadow-lg 
-        ${variant === "category" ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 min-w-[50vh] md:min-w-[70vh] lg:min-w-[70vh] gap-2 p-2" : "flex flex-col items-center gap-2 p-2 bg-white border-gray-200 dark:bg-transparent dark:border-gray-700"}
+      className={`absolute left-0 mt-2 w-full border-2 rounded-xl shadow-lg  bg-white border-gray-200 dark:bg-zinc-800 dark:border-gray-700
+        ${variant === "category" ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 min-w-[50vh] md:min-w-[70vh] lg:min-w-[70vh] gap-2 p-2" : "flex flex-col items-center gap-2 p-2 "}
       `}
     >
       {options.map((option) => (
