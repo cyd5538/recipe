@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-
+import { Toaster } from "@/components/ui/sonner"
 
 
 export const metadata: Metadata = {
@@ -19,6 +19,7 @@ export default function RootLayout({
       <body
         className="bg-gray-100 dark:bg-zinc-900"
       >
+        <Toaster />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
