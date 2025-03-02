@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import CustomButton from "@/components/ui/CustomButton";
 import { signup } from "@/app/actions/auth";
 import { toast } from "sonner";
-import SignUpInput from "./SignUpInput";
+import LabeledInput from "../ui/LabeledInput";
 
 export const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -52,9 +52,9 @@ export const SignUpForm = () => {
 
   return (
     <form onSubmit={handleSignUp} className="space-y-4">
-      <SignUpInput id="email" type="email" label="이메일" value={formData.email} onChange={handleChange} />
-      <SignUpInput id="password" type="password" label="비밀번호" value={formData.password} onChange={handleChange} />
-      <SignUpInput id="passwordConfirm" type="password" label="비밀번호 확인" value={formData.passwordConfirm} onChange={handleChange} />
+      <LabeledInput id="email" type="email" label="이메일" value={formData.email} onChange={handleChange} />
+      <LabeledInput id="password" type="password" label="비밀번호" value={formData.password} onChange={handleChange} />
+      <LabeledInput id="passwordConfirm" type="password" label="비밀번호 확인" value={formData.passwordConfirm} onChange={handleChange} />
 
       <CustomButton type="submit" disabled={loading}>
         {loading ? "가입 중..." : "회원가입"}

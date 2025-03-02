@@ -1,7 +1,7 @@
 import Label from "@/components/ui/Label";
 import Input from "@/components/ui/Input";
 
-interface SignUpInputProps {
+interface Props {
   id: string;
   type: string;
   label: string;
@@ -9,7 +9,7 @@ interface SignUpInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SignUpInput = ({ id, type, label, value, onChange }: SignUpInputProps) => {
+const LabeledInput = ({ id, type, label, value, onChange }: Props) => {
   return (
     <div>
       <Label htmlFor={id} text={label} className="mb-2" />
@@ -18,4 +18,4 @@ const SignUpInput = ({ id, type, label, value, onChange }: SignUpInputProps) => 
   );
 };
 
-export default SignUpInput;
+export default LabeledInput;
