@@ -1,29 +1,39 @@
 'use server'
 
 import { createClient } from '@/lib/server'
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 
+export async function login(email: string, password: string) {
+  const supabase = await createClient();
 
-export async function login(formData: FormData) {
-  const supabase = await createClient()
-
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  }
-
-  const { error } = await supabase.auth.signInWithPassword(data)
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    redirect('/error')
+    console.error("Login Error:", error.message);
+
+    if (error.message.includes("Invalid login credentials")) {
+      return { success: false, message: "이메일 또는 비밀번호가 올바르지 않습니다." };
+    }
+
+    if (error.message.includes("User not found")) {
+      return { success: false, message: "가입되지 않은 이메일입니다." };
+    }
+
+    return { 
+      success: false, 
+      message: "로그인 중 에러가 발생하였습니다. 잠시 후 다시 시도해주세요." 
+    };
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/account')
+  if (!data.user) {
+    return { 
+      success: false, 
+      message: "로그인에 실패하였습니다. 다시 시도해주세요." 
+    };
+  }
+
+  return { success: true, message: "로그인 완료!" };
 }
+
 
 
 
