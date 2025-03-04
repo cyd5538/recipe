@@ -58,8 +58,48 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
-			}
+			},
+			// 기본 HTML 제목 스타일 추가
+			typography: {
+				DEFAULT: {
+					css: {
+						h1: {
+							fontSize: '1.5em',
+							fontWeight: '700',
+							marginTop: "10",
+							marginBottom: "10"
+						},
+						h2: {
+							fontSize: '1.25em',
+							fontWeight: '700',
+							marginTop: "5",
+							marginBottom: "5"
+						},
+						h3: {
+							fontSize: '1.1em',
+							fontWeight: '700',
+							marginTop: "2",
+							marginBottom: "2"
+						},
+						p: {
+							marginTop: "0",
+							marginBottom: "0"
+						},
+						li: {
+							marginTop: "2",
+							marginBottom: "2"
+						},
+						ol: {
+							marginTop: "2",
+							marginBottom: "2"
+						}
+					},
+				},
+			},
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		require('@tailwindcss/typography')
+	],
 } satisfies Config;
