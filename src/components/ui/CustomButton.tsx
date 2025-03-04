@@ -5,6 +5,7 @@ interface Props {
   onClick?: () => void;
   children?: React.ReactNode;
   text?: string;
+  icon?: React.ReactNode; 
   className?: string;
   disabled?: boolean
 }
@@ -15,16 +16,17 @@ const CustomButton: React.FC<Props> = ({
   children, 
   text, 
   className = "" ,
-  disabled
+  disabled,
+  icon
 }) => {
   return (
     <button 
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`px-4 py-2 w-full rounded-md border border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200 ${className}`}
+      className={`px-6 py-2 rounded-md border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200 ${className}`}
     >
-      {children || text}
+      {children || text} {icon}
     </button>
   );
 }
