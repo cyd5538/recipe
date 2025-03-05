@@ -1,81 +1,75 @@
 "use client";
 
-import React, { useState } from "react";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { redirect } from "next/navigation";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Bold from "@tiptap/extension-bold";
-import Italic from "@tiptap/extension-italic";
-import BulletList from "@tiptap/extension-bullet-list";
-import OrderedList from "@tiptap/extension-ordered-list";
-import ListItem from "@tiptap/extension-list-item";
-import Heading from "@tiptap/extension-heading";
-import Underline from "@tiptap/extension-underline";
-import Image from "@tiptap/extension-image";
-import Youtube from "@tiptap/extension-youtube";
+import { redirect, useRouter } from "next/navigation";
+
 import Header from "@/components/layout/header/Header";
 import EditorToolbar from "@/components/write/EditorToolbar";
 import EditTagInput from "@/components/write/EditTagInput";
-import { WriteTitle } from "@/components/write/WriteTitle";
-import { SelectCategoryGroup } from "@/components/write/SelectCategoryGroup";
 import ThumbnailUpload from "@/components/write/ThumbnailUpload";
 import CustomButton from "@/components/ui/CustomButton";
+import { WriteTitle } from "@/components/write/WriteTitle";
+import { SelectCategoryGroup } from "@/components/write/SelectCategoryGroup";
+
+import { useRecipeEditor } from "@/hooks/useRecipeEditor";
+import { toast } from "sonner";
+import { insertRecipe, uploadThumbnail } from "@/lib/recipeService";
+import { EditorContent } from "@tiptap/react";
 
 const RecipeEditor = () => {
   const { user, loading } = useAuthUser();
-  const [title, setTitle] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState({
-    category: "",
-    cookTime: "",
-    difficulty: "",
-    materialPrice: "",
-  });
-  const [thumbnail, setThumbnail] = useState<File | null>(null);
-  const [tags, setTags] = useState<string[]>([]);
-  const [inputTag, setInputTag] = useState<string>("");
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({ heading: false }),
-      Heading.configure({ levels: [1, 2, 3] }),
-      Bold,
-      Italic,
-      BulletList,
-      OrderedList,
-      ListItem,
-      Underline,
-      Image,
-      Youtube.configure({ width: 480, height: 270 }),
-    ],
-    editorProps: {
-      attributes: { class: "prose focus:outline-none dark:text-white" },
-    },
-  });
+  const router = useRouter();
+  const {
+    title,
+    setTitle,
+    selectedOptions,
+    thumbnail,
+    setThumbnail,
+    handleCategoryChange,
+    tags,
+    setTags,
+    handleRemoveTag,
+    inputTag,
+    setInputTag,
+    editor,
+    validateRecipeInput,
+    handleAddTag
+  } = useRecipeEditor();
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        Loading...
-      </div>
-    );
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
   if (!user) {
     redirect("/");
   }
 
-  const handleCategoryChange = (
-    key: keyof typeof selectedOptions,
-    value: string
-  ) => {
-    setSelectedOptions((prev) => ({ ...prev, [key]: value }));
-  };
+  // 레시피 제출 핸들러
+  const handleRecipeSubmit = async () => {
+    const validationError = validateRecipeInput();
+    if (validationError) {
+      toast.error(validationError);
+      return;
+    }
 
-  const handleAddTag = () => {
-    if (inputTag.trim() && !tags.includes(inputTag)) {
-      setTags((prevTags) => [...prevTags, inputTag.trim()]);
-      setInputTag("");
+    const thumbnailUrl = thumbnail ? await uploadThumbnail(user.id, thumbnail) : null;
+
+    const recipeData = {
+      user_id: user.id,
+      title: title.trim(),
+      content: editor?.getHTML() || "",
+      category: selectedOptions.category,
+      cook_time: selectedOptions.cookTime,
+      difficulty: selectedOptions.difficulty,
+      material_price: selectedOptions.materialPrice,
+      thumbnail_url: thumbnailUrl,
+      tags: tags.length > 0 ? tags : null,
+    };
+
+    const result = await insertRecipe(recipeData);
+    if (result) {
+      toast.success("레시피가 성공적으로 등록되었습니다!");
+      router.push("/");
     }
   };
 
@@ -83,25 +77,15 @@ const RecipeEditor = () => {
     <>
       <Header />
       <main className="container mx-auto px-4 py-8 max-w-6xl">
-        <h1 className="text-2xl font-bold mb-4">🍽️ 나만의 요리 레시피를 적어주세요.</h1>
         <WriteTitle title={title} setTitle={setTitle} />
         <ThumbnailUpload thumbnail={thumbnail} setThumbnail={setThumbnail} />
-        <SelectCategoryGroup
-          selectedOptions={selectedOptions}
-          onChange={handleCategoryChange}
-        />
+        <SelectCategoryGroup selectedOptions={selectedOptions} onChange={handleCategoryChange} />
         <EditorToolbar editor={editor} />
         <div className="border rounded-md p-4 min-h-[500px]">
           <EditorContent editor={editor} />
         </div>
-        <EditTagInput
-          inputTag={inputTag}
-          setInputTag={setInputTag}
-          tags={tags}
-          setTags={setTags}
-          handleAddTag={handleAddTag}
-        />
-        <CustomButton text="레시피 등록"/>
+        <EditTagInput handleRemoveTag={handleRemoveTag} inputTag={inputTag} setInputTag={setInputTag} tags={tags} setTags={setTags} handleAddTag={handleAddTag} />
+        <CustomButton text="레시피 등록" onClick={handleRecipeSubmit} className="h-16 w-full mt-12 mb-4" />
       </main>
     </>
   );

@@ -15,7 +15,7 @@ const TagInput: React.FC<Props> = ({ inputTag, setInputTag, handleAddTag }) => {
         value={inputTag}
         onChange={(e) => setInputTag(e.target.value)}
         className="border p-2 rounded w-full"
-        placeholder="예: 한식, 중식, 디저트"
+        placeholder="예: 한식, 중식, 디저트 (태그는 5가지 이하로 작성해주세요)"
       />
       <CustomButton
         onClick={handleAddTag}
