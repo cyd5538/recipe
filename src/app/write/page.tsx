@@ -19,6 +19,8 @@ import EditorToolbar from "@/components/write/EditorToolbar";
 import EditTagInput from "@/components/write/EditTagInput";
 import { WriteTitle } from "@/components/write/WriteTitle";
 import { SelectCategoryGroup } from "@/components/write/SelectCategoryGroup";
+import ThumbnailUpload from "@/components/write/ThumbnailUpload";
+import CustomButton from "@/components/ui/CustomButton";
 
 const RecipeEditor = () => {
   const { user, loading } = useAuthUser();
@@ -29,7 +31,7 @@ const RecipeEditor = () => {
     difficulty: "",
     materialPrice: "",
   });
-
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [inputTag, setInputTag] = useState<string>("");
 
@@ -83,6 +85,7 @@ const RecipeEditor = () => {
       <main className="container mx-auto px-4 py-8 max-w-6xl">
         <h1 className="text-2xl font-bold mb-4">🍽️ 나만의 요리 레시피를 적어주세요.</h1>
         <WriteTitle title={title} setTitle={setTitle} />
+        <ThumbnailUpload thumbnail={thumbnail} setThumbnail={setThumbnail} />
         <SelectCategoryGroup
           selectedOptions={selectedOptions}
           onChange={handleCategoryChange}
@@ -98,6 +101,7 @@ const RecipeEditor = () => {
           setTags={setTags}
           handleAddTag={handleAddTag}
         />
+        <CustomButton text="레시피 등록"/>
       </main>
     </>
   );
