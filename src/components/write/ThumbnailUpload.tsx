@@ -37,14 +37,14 @@ const ThumbnailUpload: React.FC<Props> = ({ thumbnail, setThumbnail }) => {
                 className="w-full flex justify-center border-2 border-dashed cursor-pointer rounded-md"
                 onClick={handleClick}
             >
-                <div className="sm:w-[420px] w-full h-[300px] ">
+                <div className="sm:w-[420px] w-full h-[300px] flex justify-center items-center">
                     {preview ? (
                         <Image
                             src={preview}
                             alt="Thumbnail Preview"
                             width={420}
                             height={300}
-                            className="object-cover rounded-md w-full h-full"
+                            className="object-cover rounded-md w-full h-full "
                         />
                     ) : (
                         <span className="text-gray-500">썸네일 이미지를 올려주세요</span>
