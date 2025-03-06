@@ -6,7 +6,7 @@ import PriceSelector from './PriceFilter'
 
 const RecipeFilters = () => {
   return (
-    <div className='grid gap-3 grid-cols-4 mt-4 w-full'>
+    <div className='flex gap-4 justify-start items-center h-12 w-full'>
       <CategorySelector />
       <TimeSelector />
       <DifficultySelector />

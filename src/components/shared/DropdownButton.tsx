@@ -1,4 +1,5 @@
 import React from "react";
+import CustomButton from "../ui/CustomButton";
 
 interface DropdownButtonProps {
   label: string;
@@ -9,13 +10,13 @@ interface DropdownButtonProps {
 
 const DropdownButton: React.FC<DropdownButtonProps> = ({ label, selectedValue, onToggle, variant = "default" }) => {
   return (
-    <button
-      className={`w-full px-2 py-4 font-semibold sm:text-xl rounded-xl border-2 transition-all duration-200 shadow-md text-center bg-white border-gray-200 dark:bg-transparent dark:hover:bg-gray-800 dark:border-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:border-blue-500 hover:text-white
+    <CustomButton
+      className={`w-full mt-10 px-2 py-2 mb-4 sm:text-lg rounded-xl  transition-all duration-200 shadow-md text-center 
       `}
       onClick={onToggle}
     >
       {selectedValue || label}
-    </button>
+    </CustomButton>
   );
 };
 
