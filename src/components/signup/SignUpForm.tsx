@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FcGoogle } from "react-icons/fc";
 import CustomButton from "@/components/ui/CustomButton";
 import { signup } from "@/app/actions/auth";
 import { toast } from "sonner";
 import LabeledInput from "../ui/LabeledInput";
+import GoogleAuth from "../shared/GoogleAuth";
 
 export const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -56,7 +56,7 @@ export const SignUpForm = () => {
       <LabeledInput id="password" type="password" label="비밀번호" value={formData.password} onChange={handleChange} />
       <LabeledInput id="passwordConfirm" type="password" label="비밀번호 확인" value={formData.passwordConfirm} onChange={handleChange} />
 
-      <CustomButton type="submit" disabled={loading}>
+      <CustomButton type="submit" disabled={loading} className="w-full">
         {loading ? "가입 중..." : "회원가입"}
       </CustomButton>
 
@@ -66,13 +66,8 @@ export const SignUpForm = () => {
         <div className="flex-grow border-t"></div>
       </div>
 
-      <GoogleSignUpButton />
+      <GoogleAuth text="회원가입"/>
     </form>
   );
 };
 
-const GoogleSignUpButton = () => (
-  <CustomButton className="w-full flex items-center justify-center gap-2 bg-white border p-3 rounded-md shadow-sm hover:bg-gray-100 transition">
-    <FcGoogle size={20} /> Google 회원가입
-  </CustomButton>
-);

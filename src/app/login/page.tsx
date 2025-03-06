@@ -16,6 +16,7 @@ const Login = () => {
     redirect("/");
   }
 
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-white sm:bg-gray-100">
       <div className="w-full sm:max-w-md bg-white p-8 rounded-lg shadow-none sm:shadow-md">

@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FcGoogle } from "react-icons/fc";
 import CustomButton from "@/components/ui/CustomButton";
 import { login } from "@/app/actions/auth";
 import { toast } from "sonner";
 import LabeledInput from "../ui/LabeledInput";
+import GoogleAuth from "../shared/GoogleAuth";
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +15,8 @@ export const LoginForm = () => {
   });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+ 
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -45,11 +47,13 @@ export const LoginForm = () => {
     }
   };
 
+
+  
   return (
-    <form onSubmit={handleLogin} className="space-y-4">
+    <form onSubmit={handleLogin} className="space-y-4 w-full ">
       <LabeledInput id="email" type="email" label="이메일" value={formData.email} onChange={handleChange} />
       <LabeledInput id="password" type="password" label="비밀번호" value={formData.password} onChange={handleChange} />
-      <CustomButton type="submit" disabled={loading}>
+      <CustomButton type="submit" disabled={loading} className="w-full">
         {loading ? "로그인 중..." : "로그인"}
       </CustomButton>
 
@@ -59,13 +63,8 @@ export const LoginForm = () => {
         <div className="flex-grow border-t"></div>
       </div>
 
-      <GoogleLoginButton />
+      <GoogleAuth text="로그인"/>
     </form>
   );
 };
 
-const GoogleLoginButton = () => (
-  <CustomButton className="w-full flex items-center justify-center gap-2 bg-white border p-3 rounded-md shadow-sm hover:bg-gray-100 transition">
-    <FcGoogle size={20} /> Google 회원가입
-  </CustomButton>
-);
