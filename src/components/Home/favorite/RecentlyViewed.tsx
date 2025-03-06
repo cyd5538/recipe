@@ -44,7 +44,7 @@ const RecentlyViewed = () => {
 
 
   return (
-    <div className='mt-4 flex flex-col gap-4 bg-white dark:bg-transparent p-6 rounded-xl shadow-md dark:border-[1px]  '>
+    <div className='mt-4 flex flex-col gap-4 border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black p-6 rounded-xl shadow-md dark:border-[1px]  '>
       <div className='flex justify-between items-center'>
         <div>최근 본 레시피</div>
         <span className='underline cursor-pointer text-gray-400 text-right text-sm'>전체보기</span>
@@ -58,8 +58,8 @@ const RecentlyViewed = () => {
           </CarouselItem>
         ))}
         </CarouselContent>
-        <CarouselPrevious  className='left-[-20px]'/>
-        <CarouselNext className='right-[-20px]'/>
+        <CarouselPrevious  className='border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black left-[-20px]'/>
+        <CarouselNext className='border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black right-[-20px]'/>
       </Carousel>
     </div>
   )
