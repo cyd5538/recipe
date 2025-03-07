@@ -3,14 +3,7 @@
 import React from "react";
 import { useFilterStore } from "@/store/filterStore";
 import Dropdown from "@/components/shared/Dropdown";
-
-const timeOptions = [
-  { value: "15", label: "15분" },
-  { value: "30", label: "30분" },
-  { value: "60", label: "1시간" },
-  { value: "120", label: "2시간" },
-  { value: "180", label: "2시간 이상" },
-];
+import { timeOptions } from "@/constants/options";
 
 const TimeSelector = () => {
   const { time, setTime } = useFilterStore();
