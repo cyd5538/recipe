@@ -12,10 +12,10 @@ interface FilterState {
 }
 
 export const useFilterStore = create<FilterState>((set) => ({
-  category: "All", 
-  time: "30분",
-  difficulty: "보통",
-  price: "₩5,000 이하",
+  category: "", 
+  time: "",
+  difficulty: "",
+  price: "",
   setCategory: (category) => set({ category }),
   setTime: (time) => set({ time }),
   setDifficulty: (difficulty) => set({ difficulty }),
