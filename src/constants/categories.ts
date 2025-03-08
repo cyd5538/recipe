@@ -1,5 +1,4 @@
 export const recipeCategories = [
-    { value: "all", label: "All" },
     { value: "korean", label: "한식" },
     { value: "western", label: "양식" },
     { value: "chinese", label: "중식" },
@@ -26,6 +25,6 @@ export const recipeCategories = [
     { value: "20000", label: "20,000원" },
     { value: "50000", label: "50,000원" },
     { value: "100000", label: "100,000원" },
-    { value: "100001", label: "기타" },
+    { value: "200000", label: "기타" },
   ];
   

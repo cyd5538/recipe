@@ -9,7 +9,7 @@ export const categoryOptions = [
     { value: "chinese", label: "중식", icon: <ImFire /> },
     { value: "japanese", label: "일식", icon: <GiSushis /> },
     { value: "western", label: "양식", icon: <GiSushis /> },
-    { value: "bakery", label: "베이커리", icon: <FaBreadSlice /> },
+    { value: "dessert", label: "디저트", icon: <FaBreadSlice /> },
 ];
 
 export const timeOptions = [
@@ -22,14 +22,12 @@ export const timeOptions = [
 ];
 
 export const difficultyOptions = [
-    { value: "all", label: "All" },
     { value: "하", label: "하" },
     { value: "중", label: "중" },
     { value: "상", label: "상" },
 ];
 
 export const priceOptions = [
-    { value: "all", label: "All" },
     { value: "10000", label: "10,000원" },
     { value: "20000", label: "20,000원" },
     { value: "50000", label: "50,000원" },
