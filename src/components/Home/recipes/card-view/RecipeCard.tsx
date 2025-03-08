@@ -17,7 +17,7 @@ const RecipeCard:React.FC<Prop> = ({ recipe }) => {
   };
 
   const imageUrl = getImageUrl(recipe.thumbnail_url as string);
-  console.log(imageUrl  )
+
   return (
     <div className='w-full border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black h-full dark:border-[1px]  shadow-md rounded-md flex flex-col justify-start '>
       <RecipeImage src={imageUrl} alt={recipe.title} />

@@ -15,6 +15,7 @@ import { useRecipeEditor } from "@/hooks/useRecipeEditor";
 import { toast } from "sonner";
 import { insertRecipe, uploadThumbnail } from "@/lib/recipeService";
 import { EditorContent } from "@tiptap/react";
+import Loading from "@/components/ui/loading";
 
 const RecipeEditor = () => {
   const { user, loading } = useAuthUser();
@@ -37,7 +38,7 @@ const RecipeEditor = () => {
   } = useRecipeEditor();
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+    return <Loading className="w-full h-screen flex justify-center items-center"/>
   }
 
   if (!user) {
@@ -81,7 +82,7 @@ const RecipeEditor = () => {
         <ThumbnailUpload thumbnail={thumbnail} setThumbnail={setThumbnail} />
         <SelectCategoryGroup selectedOptions={selectedOptions} onChange={handleCategoryChange} />
         <EditorToolbar editor={editor} />
-        <div className="border rounded-md p-4 min-h-[500px]">
+        <div className="mt-24 md:mt-4 sm:mt-8 border rounded-md p-4 min-h-[500px] w-full">
           <EditorContent editor={editor} />
         </div>
         <EditTagInput handleRemoveTag={handleRemoveTag} inputTag={inputTag} setInputTag={setInputTag} tags={tags} setTags={setTags} handleAddTag={handleAddTag} />

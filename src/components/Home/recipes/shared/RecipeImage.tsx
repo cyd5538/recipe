@@ -1,9 +1,14 @@
 import Image from 'next/image';
 import React from 'react';
 
-const RecipeImage = ({ src, alt }) => {
+interface Prop {
+  src: string
+  alt: string
+}
+
+const RecipeImage:React.FC<Prop> = ({ src, alt }) => {
   return (
-    <div className='relative w-full h-40'>
+    <div className='relative w-full h-52'>
       <Image 
         className='object-cover rounded-md' 
         fill 
