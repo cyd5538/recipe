@@ -1,12 +1,8 @@
 import React from "react";
 import NavBarItem from "./NavBarItem";
+import { navItems } from "@/constants/navItems";
 
 const NavBar = () => {
-  const navItems = [
-    { href: "/", text: "홈" },
-    { href: "/recipes", text: "모든 레시피" },
-    { href: "/about", text: "소개" },
-  ];
 
   return (
     <>

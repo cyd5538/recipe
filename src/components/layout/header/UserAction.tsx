@@ -5,6 +5,7 @@ import axios from "axios";
 import AuthButtons from "./AuthButtons";
 import { toast } from "sonner";
 import { createClient } from "@/lib/client";
+import CustomButton from "@/components/ui/CustomButton";
 
 const UserActions = () => {
     const { user } = useAuthUser();
@@ -21,9 +22,7 @@ const UserActions = () => {
     }
 
     return user?.id ? (
-        <button onClick={handleLogout} className="text-sm font-medium text-red-500 hover:text-red-600">
-            로그아웃
-        </button>
+        <CustomButton text="로그아웃" onClick={handleLogout} className="px-1 w-24"/>
     ) : (
         <AuthButtons />
     );

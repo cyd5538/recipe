@@ -1,17 +1,14 @@
 import React from 'react'
 import AuthButtonItem from './AuthButtonItem';
+import { authItems } from '@/constants/navItems';
 
 const AuthButtons = () => {
-  const authtems = [
-    { href: "/login", text: "로그인" },
-    { href: "/signup", text: "회원가입" },
-  ];
-  
+
   return (
     <div className='hidden md:flex items-center gap-4'>
-      {authtems.map((item, index) => (
-          <AuthButtonItem key={index} href={item.href} text={item.text}/>
-        ))}
+      {authItems.map((item, index) => (
+        <AuthButtonItem key={index} href={item.href} text={item.text} />
+      ))}
     </div>
   )
 }
