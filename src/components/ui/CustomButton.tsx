@@ -24,7 +24,7 @@ const CustomButton: React.FC<Props> = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`px-6 py-2 rounded-md border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200 ${className}`}
+      className={`px-4 py-2 rounded-md border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200 ${className}`}
     >
       {children || text} {icon}
     </button>
