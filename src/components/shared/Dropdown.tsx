@@ -24,7 +24,7 @@ const Dropdown = <T extends { value: string; label: string; icon?: JSX.Element }
   const dropdownRef = useOnClickOutside(() => setIsOpen(false));
 
   return (
-    <div className={`relative w-full z-50 ${variant === "category" ? "custom-category-style" : ""}`} ref={dropdownRef}>
+    <div className={`relative w-full z-40 ${variant === "category" ? "custom-category-style" : ""}`} ref={dropdownRef}>
       <DropdownButton
         label={label}
         selectedValue={options.find((opt) => opt.value === selectedValue)?.label}
