@@ -1,16 +1,16 @@
 import React from "react";
-import { useAuthUser } from "@/hooks/useAuthUser";
 import axios from "axios";
 import { createClient } from "@/lib/client";
 import { toast } from "sonner";
 import { authItems } from "@/constants/navItems";
 import Link from "next/link";
+import { useAuthStore } from "@/store/authStore";
 
 export const MobileAuthMenu = () => {
-	const { user } = useAuthUser();
+	const { user } = useAuthStore();
 
 	const supabase = createClient();
-	
+
 	const handleLogout = async () => {
 		try {
 			await axios.post("/auth/signout");

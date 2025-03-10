@@ -7,6 +7,7 @@ import { login } from "@/app/actions/auth";
 import { toast } from "sonner";
 import LabeledInput from "../ui/LabeledInput";
 import GoogleAuth from "../shared/GoogleAuth";
+import { useAuthStore } from "@/store/authStore";
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
  
+  const { setUser } = useAuthStore(); 
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,11 +34,11 @@ export const LoginForm = () => {
       const result = await login(formData.email, formData.password);
 
       if (!result.success) {
-        console.log(result)
         toast.error(result.message, { id: toastId });
         return;
       }
 
+      setUser(result.user || null);
       toast.success("로그인 완료되었습니다.", { id: toastId });
       router.push("/");
     } catch (error) {

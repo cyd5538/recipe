@@ -31,7 +31,7 @@ export async function login(email: string, password: string) {
     };
   }
 
-  return { success: true, message: "로그인 완료!" };
+  return { success: true, message: "로그인 완료!", user: data.user };
 }
 
 

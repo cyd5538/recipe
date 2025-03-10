@@ -1,14 +1,14 @@
 "use client";
 
-import { useAuthUser } from "@/hooks/useAuthUser";
 import axios from "axios";
 import AuthButtons from "./AuthButtons";
 import { toast } from "sonner";
 import { createClient } from "@/lib/client";
 import CustomButton from "@/components/ui/CustomButton";
+import { useAuthStore } from "@/store/authStore";
 
 const UserActions = () => {
-    const { user } = useAuthUser();
+    const { user } = useAuthStore();
     const supabase = createClient();
 
     const handleLogout = async () => {
