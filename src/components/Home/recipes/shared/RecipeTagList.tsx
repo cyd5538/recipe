@@ -2,7 +2,7 @@ import React from 'react';
 import RecipeTag from './RecipeTag';
 
 interface Prop {
-  tags: string[] | null
+  tags: string[]
 }
 
 const RecipeTagList:React.FC<Prop> = ({ tags }) => {

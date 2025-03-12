@@ -1,6 +1,11 @@
 import React from 'react';
 
-const RecipeTitle = ({ title, maxLength = 15 }) => {
+interface Prop {
+  title: string
+  maxLength: number
+}
+
+const RecipeTitle:React.FC<Prop> = ({ title, maxLength }) => {
   const truncatedTitle = title.length > maxLength 
     ? `${title.slice(0, maxLength)}...` 
     : title;

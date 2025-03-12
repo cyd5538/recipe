@@ -23,7 +23,7 @@ const RecipeList = () => {
   return (
     <div>
       <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
-      {viewMode === "list" ? <RecipeListView /> : <RecipeListCardView recipes={recipes} />}
+      {viewMode === "list" ? <RecipeListView recipes={recipes}/> : <RecipeListCardView recipes={recipes} />}
       <RecipePagenation page={page} totalCount={totalCount} pageSize={PAGE_SIZE} setPage={setPage} />
     </div>
   );

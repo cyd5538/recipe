@@ -1,10 +1,17 @@
 import React from 'react';
 import RecipeTableRow from './RecipeTableRow';
+import { RecipeData } from '@/types/type';
 
-const RecipeTableBody = ({ recipes }) => {
+
+interface Prop {
+  recipes: RecipeData[]
+}
+
+const RecipeTableBody:React.FC<Prop> = ({ recipes }) => {
+  
   return (
     <tbody>
-      {recipes.map((recipe, index) => (
+      {recipes?.map((recipe, index) => (
         <RecipeTableRow 
           key={index} 
           recipe={recipe} 
