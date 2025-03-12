@@ -4,6 +4,7 @@ import { RecipeFilters } from '@/components/Home/recipeFilters'
 import { RecipeList } from '@/components/Home/recipes'
 
 import HomeSearch from '@/components/Home/Search/HomeSearch'
+import { SearchModal } from '@/components/Home/Search/SearchModal'
 import TagSection from '@/components/Home/Tag/TagSection'
 import Header from '@/components/layout/header/Header'
 import React from 'react'
@@ -24,6 +25,7 @@ const Home = () => {
             <RecentlyViewed />
             <TagSection />
           </aside>
+            <SearchModal />
         </div>
       </div>
     </>

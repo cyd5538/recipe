@@ -7,6 +7,7 @@ interface Props {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
 const Input: React.FC<Props> = ({
@@ -16,16 +17,19 @@ const Input: React.FC<Props> = ({
   value,
   onChange,
   className = '',
+  onKeyDown
+  
 }) => {
   return (
-    <div className="w-full">
+    <div className="flex justify-center items-center">
       <input
         id={id}
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={`w-full p-3 border rounded-md focus:outline-none focus:ring focus:ring-blue-500 transition ${className}`}
+        onKeyDown={onKeyDown}
+        className={`w-full p-3  dark:bg-zinc-800 dark:text-white  border-black bg-white text-black text-sm  transition duration-200  ${className}`}
       />
     </div>
   );
