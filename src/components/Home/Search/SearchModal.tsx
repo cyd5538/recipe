@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Modal,
   ModalBody,
@@ -17,6 +17,8 @@ import Input from "@/components/ui/Input";
 
 export function SearchModal() {
   const [search, setSearch] = useState<string>("");
+  const [isOpen, setIsOpen] = useState(false); // 모달 상태 추가
+  const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const handleSearch = () => {
@@ -33,9 +35,18 @@ export function SearchModal() {
     }
   };
 
+  // 모달이 열릴 때 input에 focus 적용
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
   return (
     <div className="py-40 flex items-center justify-center">
-      <Modal>
+      <Modal
+        onOpenChange={(open) => setIsOpen(open)} // 모달 상태 변경 감지
+      >
         {/* 모달  버튼 */}
         <SeacrhModalBtn />
 
@@ -47,6 +58,7 @@ export function SearchModal() {
             {/* 검색 인풋 */}
             <div className="w-full justify-center items-center">
               <Input
+                ref={inputRef} 
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={handleKeyDown}
                 value={search}

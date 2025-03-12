@@ -18,8 +18,21 @@ interface ModalContextType {
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
-export const ModalProvider = ({ children }: { children: ReactNode }) => {
+export const ModalProvider = ({
+  children,
+  onOpenChange, // 새로운 prop 추가
+}: { 
+  children: ReactNode; 
+  onOpenChange?: (open: boolean) => void; 
+}) => {
   const [open, setOpen] = useState(false);
+
+  // 모달 상태가 변경될 때 onOpenChange 호출
+  useEffect(() => {
+    if (onOpenChange) {
+      onOpenChange(open);
+    }
+  }, [open, onOpenChange]);
 
   return (
     <ModalContext.Provider value={{ open, setOpen }}>
@@ -36,8 +49,14 @@ export const useModal = () => {
   return context;
 };
 
-export function Modal({ children }: { children: ReactNode }) {
-  return <ModalProvider>{children}</ModalProvider>;
+export function Modal({
+  children,
+  onOpenChange, 
+}: { 
+  children: ReactNode; 
+  onOpenChange?: (open: boolean) => void; 
+}) {
+  return <ModalProvider onOpenChange={onOpenChange}>{children}</ModalProvider>;
 }
 
 export const ModalTrigger = ({

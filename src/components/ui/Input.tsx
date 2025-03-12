@@ -8,6 +8,7 @@ interface Props {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  ref: React.RefObject<HTMLInputElement | null>
 }
 
 const Input: React.FC<Props> = ({
@@ -17,12 +18,14 @@ const Input: React.FC<Props> = ({
   value,
   onChange,
   className = '',
-  onKeyDown
+  onKeyDown,
+  ref
   
 }) => {
   return (
     <div className="flex justify-center items-center">
       <input
+        ref={ref}
         id={id}
         type={type}
         placeholder={placeholder}
