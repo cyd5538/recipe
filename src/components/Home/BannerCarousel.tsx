@@ -10,16 +10,16 @@ import 'swiper/css/effect-fade';
 import { useState } from 'react';
 
 const slideData = [
-  { content: <div>캐러셀 1</div>, bgColor: 'bg-blue-500' },
-  { content: <div>캐러셀 2</div>, bgColor: 'bg-blue-700' },
-  { content: <div>캐러셀 3</div>, bgColor: 'bg-blue-900' },
+  { content: <div>캐러셀 1</div>, bgColor: '' },
+  { content: <div>캐러셀 2</div>, bgColor: '' },
+  { content: <div>캐러셀 3</div>, bgColor: '' },
 ];
 
 function BannerCarousel() {
   const [currentCard, setCurrentCard] = useState<number>(0);
   return (
     <Swiper
-      className='h-[200px] rounded-2xl'
+      className='h-[200px] border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black p-6 rounded-xl shadow-md dark:border-[1px]'
       spaceBetween={0}
       slidesPerView={1}
       simulateTouch={true}
