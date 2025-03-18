@@ -5,10 +5,9 @@ import { useAuthStore } from "@/store/authStore";
 import { createClient } from "@/lib/client";
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { user, setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
   const supabase = createClient();
   
-  console.log(user)
   useEffect(() => {
     const fetchUser = async () => {
       const { data, error } = await supabase.auth.getUser();
