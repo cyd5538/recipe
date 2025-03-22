@@ -28,12 +28,12 @@ export const useRecipeEditor = () => {
 
 
     const handleCategoryChange = (
-        key: keyof typeof selectedOptions, 
+        key: keyof typeof selectedOptions,
         value: string
-      ) => {
+    ) => {
         setSelectedOptions((prev) => ({ ...prev, [key]: value }));
-      };
-    
+    };
+
     // TipTap Editor 설정
     const editor = useEditor({
         extensions: [
@@ -71,22 +71,38 @@ export const useRecipeEditor = () => {
     };
 
     // 태그 추가
-    const handleAddTag = () => {
-        if (inputTag.trim() && !tags.includes(inputTag)) {
-            if (tags.length >= 5) {
-                toast.warning("태그는 최대 5개까지 가능합니다."); 
-                return;
-            }
-            setTags((prevTags) => [...prevTags, inputTag.trim()]);
-            setInputTag("");
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.nativeEvent.isComposing) return; // 한글 입력 중이면 무시
+        if (event.key === "Enter") {
+            handleAddTag();
         }
     };
+
+    const handleAddTag = () => {
+        if (!inputTag.trim()) {
+            toast.warning("태그를 입력해주세요.");
+            return;
+        }
     
+        if (tags.includes(inputTag.trim())) {
+            toast.warning("이미 존재하는 태그입니다.");
+            return;
+        }
+    
+        if (tags.length >= 5) {
+            toast.warning("태그는 최대 5개까지 가능합니다.");
+            return;
+        }
+    
+        setTags((prevTags) => [...prevTags, inputTag.trim()]);
+        setInputTag("");
+    };
+
 
     // 태그 삭제
     const handleRemoveTag = (tagToRemove: string) => {
         setTags((prevTags) => prevTags.filter((tag) => tag !== tagToRemove));
-      };
+    };
 
     return {
         title,
@@ -103,6 +119,7 @@ export const useRecipeEditor = () => {
         setInputTag,
         editor,
         validateRecipeInput,
-        handleAddTag
+        handleAddTag,
+        handleKeyDown
     };
 };

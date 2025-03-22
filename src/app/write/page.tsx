@@ -34,11 +34,12 @@ const RecipeEditor = () => {
     setInputTag,
     editor,
     validateRecipeInput,
-    handleAddTag
+    handleAddTag,
+    handleKeyDown
   } = useRecipeEditor();
 
   if (loading) {
-    return <Loading className="w-full h-screen flex justify-center items-center"/>
+    return <Loading className="w-full h-screen flex justify-center items-center" />
   }
 
   if (!user) {
@@ -85,7 +86,15 @@ const RecipeEditor = () => {
         <div className="mt-24 md:mt-4 sm:mt-8 border rounded-md p-4 min-h-[500px] w-full">
           <EditorContent editor={editor} />
         </div>
-        <EditTagInput handleRemoveTag={handleRemoveTag} inputTag={inputTag} setInputTag={setInputTag} tags={tags} setTags={setTags} handleAddTag={handleAddTag} />
+        <EditTagInput 
+          handleKeyDown={handleKeyDown}
+          handleRemoveTag={handleRemoveTag}
+          inputTag={inputTag}
+          setInputTag={setInputTag}
+          tags={tags}
+          setTags={setTags}
+          handleAddTag={handleAddTag}
+        />
         <CustomButton text="레시피 등록" onClick={handleRecipeSubmit} className="h-16 w-full mt-12 mb-4" />
       </main>
     </>
