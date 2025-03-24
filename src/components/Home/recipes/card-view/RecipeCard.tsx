@@ -4,6 +4,7 @@ import RecipeTitle from '../shared/RecipeTitle';
 import RecipeTagList from '../shared/RecipeTagList';
 import RecipeDetails from './RecipeDetailsl';
 import { RecipeData } from '@/types/type';
+import Link from 'next/link';
 
 interface Prop {
   recipe: RecipeData
@@ -19,10 +20,10 @@ const RecipeCard:React.FC<Prop> = ({ recipe }) => {
   const imageUrl = getImageUrl(recipe.thumbnail_url as string);
 
   return (
-    <div className='w-full border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black h-full dark:border-[1px]  shadow-md rounded-md flex flex-col justify-start '>
+    <Link href={`/recipe?id=${recipe.id as string}`} className='w-full border cursor-pointer dark:bg-zinc-800 dark:text-white  border-black bg-white text-black h-full dark:border-[1px]  shadow-md rounded-md flex flex-col justify-start '>
       <RecipeImage src={imageUrl} alt={recipe.title} />
       <div className='p-2'>
-        <RecipeTitle title={recipe.title} />
+        <RecipeTitle title={recipe.title} maxLength={15}/>
         <RecipeDetails
           description={recipe.content}
           category={recipe.category}
@@ -31,7 +32,7 @@ const RecipeCard:React.FC<Prop> = ({ recipe }) => {
         />
         <RecipeTagList tags={recipe.tags} />
       </div>
-    </div>
+    </Link>
   );
 };
 

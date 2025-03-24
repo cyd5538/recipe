@@ -2,6 +2,7 @@ import React from 'react';
 import RecipeTitleSection from './RecipeTitleSection';
 import RecipeImage from '../shared/RecipeImage';
 import { RecipeData } from '@/types/type';
+import { useRouter } from 'next/navigation'
 
 interface Prop {
   recipe: RecipeData
@@ -9,15 +10,21 @@ interface Prop {
 }
 
 const RecipeTableRow:React.FC<Prop> = ({ recipe, isEven }) => {
+  const router = useRouter()
 
   const getImageUrl = (thumbnailPath: string) => {
     const URL = `https://iokzxxixwfjvdwupivjn.supabase.co/storage/v1/object/public/recipe_thumbnails/`
     return `${URL}${thumbnailPath}`;
   };
 
+  const navigateRecipe = () => {
+    router.push(`/recipe?id=${recipe.id as string}`)
+  }
+
   const imageUrl = getImageUrl(recipe.thumbnail_url as string);
   return (
     <tr
+      onClick={navigateRecipe}
       className={`mt-12 md:m-2 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer ${isEven ? 'bg-gray-100 dark:bg-zinc-700' : 'bg-white dark:bg-transparent'
         }`}
     >
