@@ -10,3 +10,14 @@ export interface RecipeData {
   thumbnail_url: string | null;
   tags: string[] | null;
 }
+
+export interface User {
+  avatar_url: string | null;
+  created_at: string;
+  email: string;
+  full_name: string;
+  id: string;
+  is_active: boolean;
+  last_sign_in: string;
+  provider: string;
+}
