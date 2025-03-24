@@ -8,7 +8,7 @@ export interface RecipeData {
   difficulty: string | null;
   material_price: string | null;
   thumbnail_url: string | null;
-  tags: string[] | null;
+  tags: string[]
 }
 
 export interface User {
