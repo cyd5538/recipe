@@ -12,16 +12,12 @@ interface Prop {
 
 const RecipeCard:React.FC<Prop> = ({ recipe }) => {
 
-  const getImageUrl = (thumbnailPath: string) => {
-    const URL = `https://iokzxxixwfjvdwupivjn.supabase.co/storage/v1/object/public/recipe_thumbnails/`
-    return `${URL}${thumbnailPath}`;
-  };
 
-  const imageUrl = getImageUrl(recipe.thumbnail_url as string);
+
 
   return (
     <Link href={`/recipe?id=${recipe.id as string}`} className='w-full border cursor-pointer dark:bg-zinc-800 dark:text-white  border-black bg-white text-black h-full dark:border-[1px]  shadow-md rounded-md flex flex-col justify-start '>
-      <RecipeImage src={imageUrl} alt={recipe.title} />
+      <RecipeImage src={recipe.thumbnail_url as string} alt={recipe.title} />
       <div className='p-2'>
         <RecipeTitle title={recipe.title} maxLength={15}/>
         <RecipeDetails
