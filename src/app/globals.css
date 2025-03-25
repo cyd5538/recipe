@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+/* prose 하면 max-width가 65ch로 고정되어잇음 */
+.prose {
+  max-width: 100% !important;
+}
 
 @layer base {
   :root {
