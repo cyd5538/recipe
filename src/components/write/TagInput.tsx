@@ -6,9 +6,10 @@ interface Props {
   setInputTag: React.Dispatch<React.SetStateAction<string>>;
   handleAddTag: () => void;
   handleKeyDown: (event: React.KeyboardEvent) => void
+  placeholder: string
 }
 
-const TagInput: React.FC<Props> = ({ inputTag, setInputTag, handleAddTag, handleKeyDown }) => {
+const TagInput: React.FC<Props> = ({ inputTag, setInputTag, handleAddTag, handleKeyDown, placeholder }) => {
   return (
     <div className="flex gap-2 mt-2">
       <input
@@ -16,7 +17,7 @@ const TagInput: React.FC<Props> = ({ inputTag, setInputTag, handleAddTag, handle
         value={inputTag}
         onChange={(e) => setInputTag(e.target.value)}
         className="border p-2 rounded w-full"
-        placeholder="예: 한식, 중식, 디저트 (태그는 5가지 이하로 작성해주세요)"
+        placeholder={placeholder}
         onKeyDown={handleKeyDown}
       />
       <CustomButton

@@ -8,7 +8,7 @@ interface Props {
     setThumbnail: (file: File | null) => void;
 }
 
-const ThumbnailUpload: React.FC<Props> = ({ thumbnail, setThumbnail }) => {
+const ThumbnailUpload: React.FC<Props> = ({ setThumbnail }) => {
     const [preview, setPreview] = useState<string | null>(null);
 
     const handleThumbnailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,7 @@ const ThumbnailUpload: React.FC<Props> = ({ thumbnail, setThumbnail }) => {
 
     return (
         <div className="mt-4 flex flex-col w-full">
-            <h2 className="text-lg font-semibold">🖼️ 썸네일 업로드</h2>
+            <h2 className="text-lg font-semibold mb-4">🖼️ 썸네일을 올려주세요.</h2>
 
             {/* 썸네일 선택 박스 */}
             <div

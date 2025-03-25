@@ -15,12 +15,19 @@ export const uploadThumbnail = async (userId: string, thumbnail: File) => {
       .upload(fileName, thumbnail);
 
     if (uploadError) {
+      console.error("Thumbnail Upload Error:", uploadError);
       toast.error("썸네일 업로드에 실패했습니다.");
       return null;
     }
 
-    return uploadData?.path;
+    // 공개 URL 가져오기
+    const { data: { publicUrl } } = supabase.storage
+      .from("recipe_thumbnails")
+      .getPublicUrl(fileName);
+
+    return publicUrl;
   } catch (error) {
+    console.error("Unexpected Error:", error);
     toast.error("썸네일 업로드 중 오류가 발생했습니다.");
     return null;
   }
@@ -42,6 +49,34 @@ export const insertRecipe = async (recipeData: RecipeData) => {
     return data;
   } catch (err) {
     toast.error("레시피 등록 중 예기치 못한 오류가 발생했습니다.");
+    return null;
+  }
+};
+
+export const uploadStepImage = async (userId: string, image: File) => {
+  try {
+    const fileExt = image.name.split(".").pop()?.toLowerCase();
+    const fileName = `steps/${userId}/recipe_step_${Date.now()}.${fileExt}`;
+
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("recipe-images") 
+      .upload(fileName, image);
+
+    if (uploadError) {
+      console.error('Upload Error:', uploadError);
+      toast.error("스텝 이미지 업로드에 실패했습니다.");
+      return null;
+    }
+
+    // 공개 URL 가져오기
+    const { data: { publicUrl } } = supabase.storage
+      .from("recipe-images")
+      .getPublicUrl(fileName);
+
+    return publicUrl;
+  } catch (error) {
+    console.error('Unexpected Error:', error);
+    toast.error("스텝 이미지 업로드 중 오류가 발생했습니다.");
     return null;
   }
 };

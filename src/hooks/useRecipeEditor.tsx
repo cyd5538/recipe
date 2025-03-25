@@ -25,6 +25,30 @@ export const useRecipeEditor = () => {
     const [thumbnail, setThumbnail] = useState<File | null>(null);
     const [tags, setTags] = useState<string[]>([]);
     const [inputTag, setInputTag] = useState<string>("");
+    const [ingredients, setIngredients] = useState<string[]>([]);
+    const [ingredientTag, setIngredientTag] = useState<string>("");
+    const [steps, setSteps] = useState<{ description: string; image: File | null }[]>([]);
+
+    // 요리 순서 상태
+    const addStep = () => {
+        setSteps([...steps, { description: "", image: null }]);
+    };
+
+    const updateStepDescription = (index: number, value: string) => {
+        const updatedSteps = [...steps];
+        updatedSteps[index].description = value;
+        setSteps(updatedSteps);
+    };
+
+    const updateStepImage = (index: number, file: File | null) => {
+        const updatedSteps = [...steps];
+        updatedSteps[index].image = file;
+        setSteps(updatedSteps);
+    };
+
+    const removeStep = (index: number) => {
+        setSteps(steps.filter((_, i) => i !== index));
+    };
 
 
     const handleCategoryChange = (
@@ -62,6 +86,15 @@ export const useRecipeEditor = () => {
         if (!selectedOptions.difficulty) return "요리 난이도를 선택해주세요.";
         if (!selectedOptions.materialPrice) return "재료 가격대를 선택해주세요.";
         if (tags.length < 1 || tags.length > 5) return "태그는 최소 1개, 최대 5개 입력해야 합니다.";
+        
+        // 🔹재료 최소 1개 이상 체크
+        if (ingredients.length < 1) return "적어도 하나 이상의 재료를 추가해야 합니다.";
+    
+        // 요리 순서(steps) 체크
+        if (steps.length < 1) return "적어도 하나 이상의 요리 순서를 추가해야 합니다.";
+        for (const step of steps) {
+            if (!step.description.trim()) return "요리 순서 설명을 입력해주세요.";
+        }
 
         const editorContent = editor?.getHTML() || "";
         if (!editorContent.trim() || editorContent === "<p></p>") {
@@ -83,17 +116,17 @@ export const useRecipeEditor = () => {
             toast.warning("태그를 입력해주세요.");
             return;
         }
-    
+
         if (tags.includes(inputTag.trim())) {
             toast.warning("이미 존재하는 태그입니다.");
             return;
         }
-    
+
         if (tags.length >= 5) {
             toast.warning("태그는 최대 5개까지 가능합니다.");
             return;
         }
-    
+
         setTags((prevTags) => [...prevTags, inputTag.trim()]);
         setInputTag("");
     };
@@ -103,6 +136,35 @@ export const useRecipeEditor = () => {
     const handleRemoveTag = (tagToRemove: string) => {
         setTags((prevTags) => prevTags.filter((tag) => tag !== tagToRemove));
     };
+
+    // 재료 추가
+    const handleIngredientKeyDown = (event: React.KeyboardEvent) => {
+        if (event.nativeEvent.isComposing) return; 
+        if (event.key === "Enter") {
+            handleAddIngredient();
+        }
+    };
+
+    const handleAddIngredient = () => {
+        if (!ingredientTag.trim()) {
+            toast.warning("재료를 입력해주세요.");
+            return;
+        }
+
+        if (ingredients.includes(ingredientTag.trim())) {
+            toast.warning("이미 추가된 재료입니다.");
+            return;
+        }
+
+        setIngredients((prevIngredients) => [...prevIngredients, ingredientTag.trim()]);
+        setIngredientTag("");
+    };
+
+    // 재료 삭제
+    const handleRemoveIngredient = (ingredientToRemove: string) => {
+        setIngredients((prevIngredients) => prevIngredients.filter((ingredient) => ingredient !== ingredientToRemove));
+    };
+
 
     return {
         title,
@@ -120,6 +182,18 @@ export const useRecipeEditor = () => {
         editor,
         validateRecipeInput,
         handleAddTag,
-        handleKeyDown
+        handleKeyDown,
+        ingredients,
+        setIngredients,
+        ingredientTag,
+        setIngredientTag,
+        handleAddIngredient,
+        handleRemoveIngredient,
+        handleIngredientKeyDown,
+        steps,
+        addStep,
+        updateStepDescription,
+        updateStepImage,
+        removeStep,
     };
 };
