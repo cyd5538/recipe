@@ -4,11 +4,16 @@ export interface RecipeData {
   title: string;
   content: string;
   category: string;
-  cook_time: string | null;
-  difficulty: string | null;
-  material_price: string | null;
-  thumbnail_url: string | null;
+  cook_time: string 
+  difficulty: string 
+  material_price: string 
+  thumbnail_url: string 
   tags: string[]
+  ingredients: string[]
+  steps: {
+    description: string
+    image: string
+  }[]
 }
 
 export interface User {
