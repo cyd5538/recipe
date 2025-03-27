@@ -15,7 +15,7 @@ import Loading from "@/components/ui/loading";
 
 import { useRecipeEditor } from "@/hooks/useRecipeEditor";
 import { toast } from "sonner";
-import { insertRecipe, uploadStepImage, uploadThumbnail } from "@/lib/recipeService";
+import { insertRecipe, insertRecipeTags, insertTags, uploadStepImage, uploadThumbnail } from "@/lib/recipeService";
 import { EditorContent } from "@tiptap/react";
 
 const RecipeEditor = () => {
@@ -59,7 +59,6 @@ const RecipeEditor = () => {
     redirect("/");
   }
 
-
   const handleRecipeSubmit = async () => {
     const validationError = validateRecipeInput();
     if (validationError) {
@@ -72,10 +71,7 @@ const RecipeEditor = () => {
     const stepsWithImageUrls = await Promise.all(
       steps.map(async (step) => {
         const imageUrl = step.image ? await uploadStepImage(user.id, step.image) : null;
-        return {
-          description: step.description,
-          image: imageUrl, 
-        };
+        return { description: step.description, image: imageUrl };
       })
     );
   
@@ -88,18 +84,24 @@ const RecipeEditor = () => {
       difficulty: selectedOptions.difficulty,
       material_price: selectedOptions.materialPrice,
       thumbnail_url: thumbnailUrl,
-      tags: tags,
-      ingredients: ingredients,
-      steps: stepsWithImageUrls, // ✅ 올바른 URL이 포함된 steps
+      ingredients,
+      steps: stepsWithImageUrls,
     };
   
-    const result = await insertRecipe(recipeData);
-    if (result) {
-      toast.success("레시피가 성공적으로 등록되었습니다!");
-      router.push("/");
+    const recipe = await insertRecipe(recipeData);
+    if (!recipe || !recipe.id) {
+      toast.error("레시피 저장 중 오류 발생!");
+      return;
     }
+  
+    // 태그 저장 
+    const tagIds = await insertTags(tags);
+    await insertRecipeTags(recipe.id, tagIds);
+  
+    toast.success("레시피가 성공적으로 등록되었습니다!");
+    router.push("/");
   };
-
+  
 
   return (
     <>

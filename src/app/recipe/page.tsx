@@ -19,7 +19,7 @@ const Home = () => {
 
   if (loading) return <Loading />;
   if (error || !id || !recipe || !user) return <div>{error || "레시피를 찾을 수 없습니다."}</div>;
-
+  console.log(recipe)
   return (
     <>
       <Header />

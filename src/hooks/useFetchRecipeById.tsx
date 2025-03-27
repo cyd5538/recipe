@@ -19,7 +19,7 @@ export const useFetchRecipeById = (id: string) => {
     setError(null);
     
     try {
-      // 레시피 데이터 가져오기
+      // 레시피 데이터 
       const { data: recipeData, error: recipeError } = await supabase
         .from("recipes")
         .select("*")
@@ -32,9 +32,35 @@ export const useFetchRecipeById = (id: string) => {
         return;
       }
       
-      setRecipe(recipeData);
-      
-      // 레시피 작성자 정보 가져오기
+      // 태그 데이터 
+      const { data: tagRelations, error: tagError } = await supabase
+        .from("recipe_tags")
+        .select("tag_id")
+        .eq("recipe_id", id);
+
+      if (tagError) {
+        console.error("Tag fetch error:", tagError.message);
+      }
+
+      let tags: string[] = [];
+      if (tagRelations && tagRelations.length > 0) {
+        const tagIds = tagRelations.map((rel) => rel.tag_id);
+
+        const { data: tagData, error: tagsError } = await supabase
+          .from("tags")
+          .select("name")
+          .in("id", tagIds);
+
+        if (tagsError) {
+          console.error("Tags fetch error:", tagsError.message);
+        } else {
+          tags = tagData.map((tag) => tag.name);
+        }
+      }
+
+      setRecipe({ ...recipeData, tags });
+
+      // 레시피 작성자 정보
       if (recipeData.user_id) {
         const { data: userData, error: userError } = await supabase
           .from("users")
@@ -60,5 +86,5 @@ export const useFetchRecipeById = (id: string) => {
     fetchRecipeById();
   }, [id]);
 
-  return { recipe, user, loading, error }; // user 정보도 반환
+  return { recipe, user, loading, error }; 
 };
