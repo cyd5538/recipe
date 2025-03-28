@@ -11,6 +11,7 @@ import RecipeSteps from "@/components/recipe/RecipeSteps";
 import RecipeTags from "@/components/recipe/RecipeTags";
 import RecipeAuthor from "@/components/recipe/RecipeAuthor";
 import RecipeContent from "@/components/recipe/RecipeContent";
+import RecipeEditDelBtn from "@/components/recipe/RecipeEditDelBtn";
 
 const Home = () => {
   const searchParams = useSearchParams();
@@ -19,11 +20,12 @@ const Home = () => {
 
   if (loading) return <Loading />;
   if (error || !id || !recipe || !user) return <div>{error || "레시피를 찾을 수 없습니다."}</div>;
-  console.log(recipe)
+
   return (
     <>
       <Header />
       <div className="container mx-auto px-4 py-8 max-w-5xl">
+        <RecipeEditDelBtn id={user.id} postId={recipe.id}/>
         <RecipeHeader recipe={recipe} />
         <RecipeInfo recipe={recipe} />
         <RecipeIngredients ingredients={recipe.ingredients} />
