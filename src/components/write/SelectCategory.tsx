@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useEffect } from 'react';
 import {
   Select,
   SelectContent,
@@ -15,10 +16,15 @@ interface Props {
   categories: { value: string; label: string }[];
   onChange?: (value: string) => void;
   label: string
+  selectedCategory: string
 }
 
-export function SelectCategory({ categories, onChange, label }: Props) {
+export function SelectCategory({ categories, onChange, label, selectedCategory }: Props) {
   const [selectedValue, setSelectedValue] = React.useState<string | null>(null);
+  
+  useEffect(() => {
+    setSelectedValue(selectedCategory)
+  } ,[selectedCategory])
 
   return (
     <Select

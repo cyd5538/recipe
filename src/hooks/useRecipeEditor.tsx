@@ -191,6 +191,7 @@ export const useRecipeEditor = () => {
         handleRemoveIngredient,
         handleIngredientKeyDown,
         steps,
+        setSteps,
         addStep,
         updateStepDescription,
         updateStepImage,

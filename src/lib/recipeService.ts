@@ -54,13 +54,54 @@ export const insertRecipe = async (recipeData: RecipeData) => {
   }
 };
 
+// 레시피 데이터 수정 함수
+export const updateRecipe = async (recipeId: string, recipeData: RecipeData) => {
+  try {
+    const { error } = await supabase
+      .from("recipes")
+      .update(recipeData)
+      .eq("id", recipeId);
+
+    if (error) {
+      toast.error(`레시피 수정 중 오류: ${error.message}`);
+      return null;
+    }
+    return true;
+  } catch (err) {
+    toast.error("레시피 수정 중 예기치 못한 오류가 발생했습니다.");
+    return null;
+  }
+};
+
+// 특정 레시피 데이터 가져오기 함수
+export const getRecipeById = async (recipeId: string) => {
+  const { data: recipe, error } = await supabase
+    .from("recipes")
+    .select(`
+      *,
+      recipe_tags (tag_id, tags (id, name))
+    `)
+    .eq("id", recipeId)
+    .single();
+
+  if (error) {
+    console.error("레시피 가져오는 중에 에러가 발생했습니다.", error);
+    return null;
+  }
+
+  // recipe_tags 배열에서 tag name만 추출
+  const tags = recipe.recipe_tags?.map((tag) => tag.tags?.name).filter(Boolean) || [];
+
+  return { ...recipe, tags };
+};
+
 export const uploadStepImage = async (userId: string, image: File) => {
   try {
     const fileExt = image.name.split(".").pop()?.toLowerCase();
     const fileName = `steps/${userId}/recipe_step_${Date.now()}.${fileExt}`;
 
     const { data: uploadData, error: uploadError } = await supabase.storage
-      .from("recipe-images") 
+      .from("recipe-images")
       .upload(fileName, image);
 
     if (uploadError) {
@@ -82,9 +123,8 @@ export const uploadStepImage = async (userId: string, image: File) => {
   }
 };
 
-// tags 테이블에 젖아
+// tags 테이블에 저장
 export const insertTags = async (tags: string[]) => {
-
   return await Promise.all(
     tags.map(async (tag) => {
       const { data: existingTag, error: existingTagError } = await supabase
@@ -93,7 +133,7 @@ export const insertTags = async (tags: string[]) => {
         .eq("name", tag)
         .single();
 
-      // PGRST116는 해당 태그가 존재하지 않는다는 발생하는 오류로 무시
+      // PGRST116는 해당 태그가 존재하지 않는다는 오류로 무시
       if (existingTagError && existingTagError.code !== "PGRST116") {
         console.error("태그 조회 오류:", existingTagError);
         return null;
@@ -121,12 +161,18 @@ export const insertTags = async (tags: string[]) => {
 
 // recipe_tags 테이블에 recipe_id와 tag_id를 연결
 export const insertRecipeTags = async (recipeId: string, tagIds: (string | null)[]) => {
-
   await Promise.all(
     tagIds
-      .filter((tagId) => tagId) 
+      .filter((tagId) => tagId)
       .map(async (tagId) => {
         await supabase.from("recipe_tags").insert({ recipe_id: recipeId, tag_id: tagId });
       })
   );
+};
+
+export const deleteRecipeTags = async (recipeId: string) => {
+  const { error } = await supabase.from("recipe_tags").delete().eq("recipe_id", recipeId);
+  if (error) {
+    console.error("태그 삭제 실패:", error);
+  }
 };

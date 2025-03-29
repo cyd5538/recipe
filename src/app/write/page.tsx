@@ -1,7 +1,8 @@
 "use client";
 
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { redirect, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSearchParams, useRouter, redirect } from "next/navigation";
 
 import Header from "@/components/layout/header/Header";
 import EditorToolbar from "@/components/write/EditorToolbar";
@@ -15,16 +16,30 @@ import Loading from "@/components/ui/loading";
 
 import { useRecipeEditor } from "@/hooks/useRecipeEditor";
 import { toast } from "sonner";
-import { insertRecipe, insertRecipeTags, insertTags, uploadStepImage, uploadThumbnail } from "@/lib/recipeService";
+import {
+  insertRecipe,
+  updateRecipe,
+  insertRecipeTags,
+  insertTags,
+  uploadStepImage,
+  uploadThumbnail,
+  getRecipeById,
+  deleteRecipeTags
+} from "@/lib/recipeService";
+
 import { EditorContent } from "@tiptap/react";
 
 const RecipeEditor = () => {
   const { user, loading } = useAuthUser();
+  const searchParams = useSearchParams();
   const router = useRouter();
+  const recipeId = searchParams.get("id");
+
   const {
     title,
     setTitle,
     selectedOptions,
+    setSelectedOptions,
     thumbnail,
     setThumbnail,
     handleCategoryChange,
@@ -45,36 +60,87 @@ const RecipeEditor = () => {
     handleRemoveIngredient,
     handleIngredientKeyDown,
     steps,
+    setSteps,
     addStep,
     updateStepDescription,
     updateStepImage,
     removeStep,
   } = useRecipeEditor();
 
-  if (loading) {
-    return <Loading className="w-full h-screen flex justify-center items-center" />
+  const [loadingRecipe, setLoadingRecipe] = useState(false);
+
+  useEffect(() => {
+    if (recipeId) {
+      const fetchRecipe = async () => {
+        setLoadingRecipe(true);
+        const recipe = await getRecipeById(recipeId);
+
+        if (!recipe) {
+          toast.error("레시피 데이터를 불러올 수 없습니다.");
+          setLoadingRecipe(false);
+          return;
+        }
+
+        setTitle(recipe.title);
+        setSelectedOptions({
+          category: recipe.category,
+          cookTime: recipe.cook_time,
+          difficulty: recipe.difficulty,
+          materialPrice: recipe.material_price,
+        });
+        setThumbnail(recipe.thumbnail_url);
+        setIngredients(recipe.ingredients);
+        setSteps(
+          recipe.steps.map((step) => ({
+            description: step.description,
+            image: step.image || ""
+          }))
+        );
+        setTags(recipe.tags);
+
+        if (editor) {
+          editor.commands.setContent(recipe.content || "");
+        }
+
+        setLoadingRecipe(false);
+      };
+
+      fetchRecipe();
+
+    }
+  }, [recipeId, setTitle, setSelectedOptions, setThumbnail, setIngredients, setSteps, setTags, editor]);
+
+  if (loading || loadingRecipe) {
+    return <Loading className="w-full h-screen flex justify-center items-center" />;
   }
 
   if (!user) {
     redirect("/");
   }
-
   const handleRecipeSubmit = async () => {
     const validationError = validateRecipeInput();
     if (validationError) {
       toast.error(validationError);
       return;
     }
-  
-    const thumbnailUrl = thumbnail ? await uploadThumbnail(user.id, thumbnail) : null;
-  
+
+    // 기존 썸네일 유지 (이미지 안바꾸면)
+    let thumbnailUrl: string | null = typeof thumbnail === "string" ? thumbnail : null;
+    if (thumbnail && typeof thumbnail !== "string") {
+      thumbnailUrl = await uploadThumbnail(user.id, thumbnail);
+    }
+
+    // 기존 스텝 이미지 유지 (이미지 안바꾸면)
     const stepsWithImageUrls = await Promise.all(
       steps.map(async (step) => {
-        const imageUrl = step.image ? await uploadStepImage(user.id, step.image) : null;
+        let imageUrl: string | null = typeof step.image === "string" ? step.image : null;
+        if (step.image && typeof step.image !== "string") {
+          imageUrl = await uploadStepImage(user.id, step.image);
+        }
         return { description: step.description, image: imageUrl };
       })
     );
-  
+
     const recipeData = {
       user_id: user.id,
       title: title.trim(),
@@ -83,25 +149,33 @@ const RecipeEditor = () => {
       cook_time: selectedOptions.cookTime,
       difficulty: selectedOptions.difficulty,
       material_price: selectedOptions.materialPrice,
-      thumbnail_url: thumbnailUrl,
+      thumbnail_url: thumbnailUrl, // ✅ 기존 썸네일 유지
       ingredients,
-      steps: stepsWithImageUrls,
+      steps: stepsWithImageUrls, // ✅ 기존 스텝 이미지 유지
     };
-  
-    const recipe = await insertRecipe(recipeData);
-    if (!recipe || !recipe.id) {
-      toast.error("레시피 저장 중 오류 발생!");
-      return;
+
+    if (recipeId) {
+      const updatedRecipe = await updateRecipe(recipeId, recipeData);
+      if (!updatedRecipe) {
+        toast.error("레시피 수정 중 오류 발생!");
+        return;
+      }
+
+      await deleteRecipeTags(recipeId);
+      await insertRecipeTags(recipeId, await insertTags(tags));
+      toast.success("레시피가 성공적으로 수정되었습니다!");
+    } else {
+      const newRecipe = await insertRecipe(recipeData);
+      if (!newRecipe || !newRecipe.id) {
+        toast.error("레시피 저장 중 오류 발생!");
+        return;
+      }
+      await insertRecipeTags(newRecipe.id, await insertTags(tags));
+      toast.success("레시피가 성공적으로 등록되었습니다!");
     }
-  
-    // 태그 저장 
-    const tagIds = await insertTags(tags);
-    await insertRecipeTags(recipe.id, tagIds);
-  
-    toast.success("레시피가 성공적으로 등록되었습니다!");
+
     router.push("/");
   };
-  
 
   return (
     <>
@@ -143,7 +217,7 @@ const RecipeEditor = () => {
           updateStepImage={updateStepImage}
           removeStep={removeStep}
         />
-        <CustomButton text="레시피 등록" onClick={handleRecipeSubmit} className="h-16 w-full mt-12 mb-4" />
+        <CustomButton text={recipeId ? "레시피 수정" : "레시피 등록"} onClick={handleRecipeSubmit} className="h-16 w-full mt-12 mb-4" />
       </main>
     </>
   );

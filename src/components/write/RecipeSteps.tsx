@@ -1,12 +1,12 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomButton from "../ui/CustomButton";
 import { Textarea } from "@/components/ui/textarea";
 import { X } from "lucide-react"; // X 아이콘 추가
 
 interface RecipeStep {
   description: string;
-  image: File | null;
+  image: File | string | null; // 기존 이미지 URL도 허용
 }
 
 interface RecipeStepsProps {
@@ -18,7 +18,11 @@ interface RecipeStepsProps {
 }
 
 const RecipeSteps: React.FC<RecipeStepsProps> = ({ steps, addStep, updateStepDescription, updateStepImage, removeStep }) => {
-  const [previews, setPreviews] = useState<(string | null)[]>(steps.map(() => null));
+  const [previews, setPreviews] = useState<(string | null)[]>([]);
+
+  useEffect(() => {
+    setPreviews(steps.map((step) => (typeof step.image === "string" ? step.image : null)));
+  }, [steps]);
 
   const handleImageChange = (index: number, file: File | null) => {
     updateStepImage(index, file);
@@ -33,12 +37,6 @@ const RecipeSteps: React.FC<RecipeStepsProps> = ({ steps, addStep, updateStepDes
         });
       };
       reader.readAsDataURL(file);
-    } else {
-      setPreviews((prev) => {
-        const newPreviews = [...prev];
-        newPreviews[index] = null;
-        return newPreviews;
-      });
     }
   };
 

@@ -7,12 +7,11 @@ export interface RecipeData {
   cook_time: string 
   difficulty: string 
   material_price: string 
-  thumbnail_url: string 
-  tags: string[]
+  thumbnail_url: File | string | null
   ingredients: string[]
   steps: {
     description: string
-    image: string
+    image: File | string | null
   }[]
 }
 
