@@ -9,10 +9,13 @@ export interface RecipeData {
   material_price: string 
   thumbnail_url: File | string | null
   ingredients: string[]
-  steps: {
-    description: string
-    image: File | string | null
-  }[]
+  tags?: string[]
+  steps: RecipeDataStep[]
+}
+
+export interface RecipeDataStep {  
+  description: string;
+  image: File | string | null;
 }
 
 export interface User {

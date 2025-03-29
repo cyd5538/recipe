@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 
 interface Props {
   id: string | undefined
-  postId: string
+  postId: string | undefined
 }
 
 const RecipeEditDelBtn:React.FC<Props> = ({id, postId}) => {

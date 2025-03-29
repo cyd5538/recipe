@@ -28,6 +28,7 @@ import {
 } from "@/lib/recipeService";
 
 import { EditorContent } from "@tiptap/react";
+import { RecipeDataStep } from "@/types/type";
 
 const RecipeEditor = () => {
   const { user, loading } = useAuthUser();
@@ -91,7 +92,7 @@ const RecipeEditor = () => {
         setThumbnail(recipe.thumbnail_url);
         setIngredients(recipe.ingredients);
         setSteps(
-          recipe.steps.map((step) => ({
+          recipe.steps.map((step:RecipeDataStep) => ({
             description: step.description,
             image: step.image || ""
           }))

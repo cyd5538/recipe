@@ -18,8 +18,8 @@ const Home = () => {
   const id = searchParams.get("id");
   const { recipe, user, loading, error } = useFetchRecipeById(id as string);
 
-  if (loading) return <Loading />;
-  if (error || !id || !recipe || !user) return <div>{error || "레시피를 찾을 수 없습니다."}</div>;
+  if (loading) return <div className="h-screen w-full flex justify-center items-center"><Loading /></div>;
+  if (error || !recipe || !user) return <div>{error || "레시피를 찾을 수 없습니다."}</div>;
 
   return (
     <>
