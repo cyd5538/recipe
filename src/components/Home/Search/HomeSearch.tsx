@@ -9,7 +9,7 @@ const HomeSearch = () => {
     const [search, setSearch] = useState<string>("");
         
     return (
-        <form className='mt-4 flex flex-col gap-4 border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black p-6 rounded-xl shadow-md dark:border-[1px]   '>
+        <form className='mt-4 flex flex-col gap-4 border dark:bg-zinc-800 dark:text-white  bg-white text-black p-6 rounded-xl shadow-md dark:border-[1px]   '>
             <div className='relative rounded-xl shadow-md h-12 text-black'>
                 <CiSearch className='absolute top-[50%] left-[5%] translate-y-[-50%]' size={24} />
                 <input onChange={(e) => setSearch(e.target.value)} value={search} type="text" className='w-full h-full px-12 rounded-xl border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black' />

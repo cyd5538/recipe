@@ -44,7 +44,7 @@ const RecentlyViewed = () => {
 
 
   return (
-    <div className='mt-4 flex flex-col gap-4 border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black p-6 rounded-xl shadow-md dark:border-[1px]  '>
+    <div className='mt-4 flex flex-col gap-4 border dark:bg-zinc-800 dark:text-white  bg-white text-black p-6 rounded-xl shadow-md dark:border-[1px]  '>
       <div className='flex justify-between items-center'>
         <div>최근 본 레시피</div>
         <span className='underline cursor-pointer text-gray-400 text-right text-sm'>전체보기</span>
@@ -53,13 +53,13 @@ const RecentlyViewed = () => {
         <CarouselContent>
         {mockData.map((data, index) => (
           <CarouselItem key={index}>
-            <Image src={data.image} width={300} height={300} alt={data.title}/>
+            <Image src={data.image} width={400} height={300} alt={data.title}/>
             <div className='text-center mt-2 cursor-pointer hover:underline'>{data.title}</div>
           </CarouselItem>
         ))}
         </CarouselContent>
-        <CarouselPrevious  className='border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black left-[-20px]'/>
-        <CarouselNext className='border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black right-[-20px]'/>
+        <CarouselPrevious  className='border dark:bg-zinc-900 dark:text-white   bg-white text-black left-[-20px]'/>
+        <CarouselNext className='border dark:bg-zinc-900 dark:text-white   bg-white text-black right-[-20px]'/>
       </Carousel>
     </div>
   )

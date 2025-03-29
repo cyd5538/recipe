@@ -15,8 +15,8 @@ const Home = () => {
       <Header />
       <div className='container mx-auto px-4 py-8 max-w-7xl'>
         <BannerCarousel />
-        <div className='flex lg:flex-row '>
-          <main className='flex-1 mr-6'>
+        <div className='flex lg:flex-row w-full'>
+          <main className='flex-1 lg:mr-6'>
             <RecipeFilters />
             <RecipeList />
           </main>

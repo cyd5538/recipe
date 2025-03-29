@@ -9,7 +9,7 @@ interface Prop {
 
 const RecipeTable:React.FC<Prop> = ({ recipes }) => {
   return (
-    <table className="min-w-full mt-4 rounded-md border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black table-fixed">
+    <table className="min-w-full mt-4 rounded-md border dark:bg-zinc-800 dark:text-white bg-white text-black table-fixed">
       <RecipeTableHeader/>
       <RecipeTableBody recipes={recipes} />
     </table>

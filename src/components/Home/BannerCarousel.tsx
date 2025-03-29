@@ -19,7 +19,7 @@ function BannerCarousel() {
   const [currentCard, setCurrentCard] = useState<number>(0);
   return (
     <Swiper
-      className='h-[200px] border dark:bg-zinc-800 dark:text-white  border-black bg-white text-black p-6 rounded-xl shadow-md dark:border-[1px]'
+      className='h-[200px]  dark:bg-zinc-800 dark:text-white   bg-white text-black p-6 rounded-xl shadow-md dark:border-[1px]'
       spaceBetween={0}
       slidesPerView={1}
       simulateTouch={true}

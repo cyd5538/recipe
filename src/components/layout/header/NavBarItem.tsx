@@ -8,7 +8,7 @@ interface Props {
 
 const NavBarItem:React.FC<Props> = ({href,text}) => {
   return (
-    <li className='px-4 py-2 hover:bg-gray-100 dark:text-white dark:hover:bg-zinc-700 rounded-md'>
+    <li className='px-4 py-2 hover:bg-red-500 dark:text-white dark:hover:bg-zinc-900 rounded-md'>
       <Link href={href}>
         {text}
       </Link>

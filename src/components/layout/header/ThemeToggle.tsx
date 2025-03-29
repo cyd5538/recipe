@@ -17,9 +17,9 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="py-1 px-2   hover:bg-gray-100 dark:hover:bg-zinc-700 rounded-md "
+      className="py-1 px-2 hover:bg-gray-900 dark:hover:bg-yellow-500 rounded-md "
     > 
-      {theme === "dark" ? <Sun color="#c9c903" /> : <MoonStar color="#5d12df" />}
+      {theme === "dark" ? <Sun color="#00f" /> : <MoonStar color="#fff" />}
     </button>
   );
 }
