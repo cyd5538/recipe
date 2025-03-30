@@ -11,13 +11,13 @@ import RecipeSteps from "@/components/recipe/RecipeSteps";
 import RecipeTags from "@/components/recipe/RecipeTags";
 import RecipeAuthor from "@/components/recipe/RecipeAuthor";
 import RecipeContent from "@/components/recipe/RecipeContent";
-import RecipeEditDelBtn from "@/components/recipe/RecipeEditDelBtn";
+import RecipeActionButtons from "@/components/recipe/RecipeActionButtons";
 
 const Home = () => {
   const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-  const { recipe, user, loading, error } = useFetchRecipeById(id as string);
-
+  const id = searchParams.get("id") ?? "";
+  const { recipe, user, loading, error } = useFetchRecipeById(id);
+  
   if (loading) return <div className="h-screen w-full flex justify-center items-center"><Loading /></div>;
   if (error || !recipe || !user) return <div>{error || "레시피를 찾을 수 없습니다."}</div>;
 
@@ -25,7 +25,7 @@ const Home = () => {
     <>
       <Header />
       <div className="container mx-auto px-4 py-8 max-w-5xl">
-        <RecipeEditDelBtn id={user.id} postId={recipe.id}/>
+        <RecipeActionButtons recipeId={recipe.user_id}/>
         <RecipeHeader recipe={recipe} />
         <RecipeInfo recipe={recipe} />
         <RecipeIngredients ingredients={recipe.ingredients} />

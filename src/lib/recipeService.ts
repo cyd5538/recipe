@@ -95,6 +95,7 @@ export const getRecipeById = async (recipeId: string) => {
   return { ...recipe, tags };
 };
 
+// 스탭이미지 함수
 export const uploadStepImage = async (userId: string, image: File) => {
   try {
     const fileExt = image.name.split(".").pop()?.toLowerCase();
@@ -170,9 +171,30 @@ export const insertRecipeTags = async (recipeId: string, tagIds: (string | null)
   );
 };
 
+// 태그 삭제 함수
 export const deleteRecipeTags = async (recipeId: string) => {
   const { error } = await supabase.from("recipe_tags").delete().eq("recipe_id", recipeId);
   if (error) {
     console.error("태그 삭제 실패:", error);
+  }
+};
+
+// 레시피 삭제 함수
+export const deleteRecipe = async (recipeId: string) => {
+  try {
+    await deleteRecipeTags(recipeId);
+
+    const { error } = await supabase.from("recipes").delete().eq("id", recipeId);
+
+    if (error) {
+      toast.error(`레시피 삭제 중 오류: ${error.message}`);
+      return false;
+    }
+
+    toast.success("레시피가 성공적으로 삭제되었습니다.");
+    return true;
+  } catch (err) {
+    toast.error("레시피 삭제 중 오류가 발생했습니다.");
+    return false;
   }
 };
