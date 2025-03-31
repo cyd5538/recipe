@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import CustomButton from "../ui/CustomButton";
 
 interface Props {
-  recipeId: string
+  recipeId: string | undefined
 }
 
 const RecipeEditButton: React.FC<Props> = ({ recipeId }) => {
