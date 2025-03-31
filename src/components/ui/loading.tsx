@@ -8,7 +8,7 @@ interface Props {
 const Loading: React.FC<Props> = ({ className = "" }) => {
   return (
     <div
-      className={`flex items-center justify-center inset-0 bg-white/50 backdrop-blur-sm ${className}`}
+      className={`flex items-center justify-center inset-0 backdrop-blur-sm ${className}`}
     >
       <AiOutlineLoading3Quarters size={28} className="animate-spin transition-all delay-75 text-gray-600" />
     </div>

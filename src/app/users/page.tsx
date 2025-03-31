@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import Header from "@/components/layout/header/Header";
 import { motion } from "framer-motion";
 import UserTabs from "@/components/users/UserTabs";
+import UserProfile from "@/components/users/UserProfile";
+import UserRecipes from "@/components/users/UserRecipes";
 
 const UserPage = () => {
   const searchParams = useSearchParams();
@@ -27,8 +29,8 @@ const UserPage = () => {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.2 }}
           >
-            {activeTab === "profile" && <Profile />}
-            {activeTab === "my-posts" && <MyPosts />}
+            {activeTab === "profile" && <UserProfile userId={userId}/>}
+            {activeTab === "my-posts" && <UserRecipes userId={userId}/>}
             {activeTab === "favorites" && <Favorites />}
           </motion.div>
         </div>
@@ -38,6 +40,4 @@ const UserPage = () => {
 };
 
 export default UserPage;
-const Profile = () => <div>프로필 정보</div>;
-const MyPosts = () => <div>내가 작성한 글 목록</div>;
 const Favorites = () => <div> 즐겨찾기한 글</div>;
