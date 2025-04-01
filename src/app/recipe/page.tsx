@@ -12,11 +12,25 @@ import RecipeTags from "@/components/recipe/RecipeTags";
 import RecipeAuthor from "@/components/recipe/RecipeAuthor";
 import RecipeContent from "@/components/recipe/RecipeContent";
 import RecipeActionButtons from "@/components/recipe/RecipeActionButtons";
+import { useLocalStorageArray } from "@/hooks/useLocalStorageArray";
+import { useEffect } from "react";
+import { RecipeLocalStorage } from "@/types/type";
 
 const Home = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id") ?? "";
   const { recipe, user, loading, error } = useFetchRecipeById(id);
+  const [ , addRecentRecipe] = useLocalStorageArray<RecipeLocalStorage>("recentRecipes");
+
+  useEffect(() => {
+    if (recipe && typeof recipe.thumbnail_url === "string") {
+      addRecentRecipe({
+        id: recipe.id,
+        title: recipe.title,
+        image: recipe.thumbnail_url
+      });
+    }
+  }, [recipe]);
   
   if (loading) return <div className="h-screen w-full flex justify-center items-center"><Loading /></div>;
   if (error || !recipe || !user) return <div>{error || "레시피를 찾을 수 없습니다."}</div>;

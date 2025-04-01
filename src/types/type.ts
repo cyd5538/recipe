@@ -1,5 +1,5 @@
 export interface RecipeData {
-  id?: string;
+  id: string;
   user_id: string;
   title: string;
   content: string;
@@ -11,6 +11,12 @@ export interface RecipeData {
   ingredients: string[]
   tags?: string[]
   steps: RecipeDataStep[]
+}
+
+export interface RecipeLocalStorage {
+  id: string;
+  image: string
+  title: string
 }
 
 export interface RecipeDataStep {  
