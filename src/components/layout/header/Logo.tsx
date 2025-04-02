@@ -6,7 +6,7 @@ const Logo = () => {
 
   return (
     <Link href="/">
-      <button className="flex item-center font-bold xl:text-2xl md:text-xl text-base tracking-wide">
+      <button className="flex item-center font-bold text-2xl tracking-wide">
         <span className="text-white">C</span>
         <span className="text-white">o</span>
         <span className="text-white">o</span>

@@ -1,17 +1,17 @@
-import React from "react";
-import NavBarItem from "./NavBarItem";
-import { navItems } from "@/constants/navItems";
+"use client";
+
+import React, { useState } from "react";
+import MenuPanel from "./MenuPanel";
+import MenuButton from "./MenuButton";
 
 const NavBar = () => {
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <>
-      <ul className="flex gap-2">
-        {navItems.map((item, index) => (
-          <NavBarItem key={index} href={item.href} text={item.text}/>
-        ))}
-      </ul>
-    </>
+    <div className="relative">
+      <MenuButton open={open} onClick={() => setOpen(!open)} />
+      <MenuPanel open={open} onClose={() => setOpen(false)} />
+    </div>
   );
 };
 
