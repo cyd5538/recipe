@@ -3,7 +3,7 @@ import CustomButton from "../ui/CustomButton";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  recipeId: string 
+  recipeId: string | undefined
 }
 
 const RecipeDeleteButton: React.FC<Props> = ({ recipeId }) => {
