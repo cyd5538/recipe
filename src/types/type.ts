@@ -11,6 +11,7 @@ export interface RecipeData {
   ingredients: string[]
   tags?: string[]
   steps: RecipeDataStep[]
+  views: number
 }
 
 export interface RecipeLocalStorage {

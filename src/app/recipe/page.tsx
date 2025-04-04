@@ -15,11 +15,13 @@ import RecipeActionButtons from "@/components/recipe/RecipeActionButtons";
 import { useLocalStorageArray } from "@/hooks/useLocalStorageArray";
 import { useEffect } from "react";
 import { RecipeLocalStorage } from "@/types/type";
+import { useAuthStore } from "@/store/authStore";
 
 const Home = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id") ?? "";
-  const { recipe, user, loading, error } = useFetchRecipeById(id);
+  const { user: userId } = useAuthStore()
+  const { recipe, user, loading, error } = useFetchRecipeById(id, userId?.id);
   const [ , addRecentRecipe] = useLocalStorageArray<RecipeLocalStorage>("recentRecipes");
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const Home = () => {
       });
     }
   }, [recipe]);
-  
+ 
   if (loading) return <div className="h-screen w-full flex justify-center items-center"><Loading /></div>;
   if (error || !recipe || !user) return <div>{error || "레시피를 찾을 수 없습니다."}</div>;
 

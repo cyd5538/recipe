@@ -5,7 +5,7 @@ import { RecipeData, User } from "@/types/type";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export const useFetchRecipeById = (id: string) => {
+export const useFetchRecipeById = (id: string, userId?: string) => {
   const router = useRouter();
   const supabase = createClient();
   
@@ -29,7 +29,7 @@ export const useFetchRecipeById = (id: string) => {
           .single();
         
         if (recipeError || !recipeData) {
-          router.replace("/"); // 유효하지 않은 ID면 홈으로 리다이렉트
+          router.replace("/"); // 유효하지 않은 ID면 홈으로
           return;
         }
 
@@ -48,13 +48,13 @@ export const useFetchRecipeById = (id: string) => {
             .from("tags")
             .select("name")
             .in("id", tagIds);
-          if (tagsError) console.error("Tags fetch error:", tagsError.message);
+          if (tagsError) console.error("Tag fetch error:", tagsError.message);
           else tags = tagData.map((tag) => tag.name);
         }
 
         setRecipe({ ...recipeData, tags });
 
-        // ✅ 작성자 정보 가져오기
+        // 작성자 정보 가져오기
         if (recipeData.user_id) {
           const { data: userData, error: userError } = await supabase
             .from("users")
@@ -65,6 +65,17 @@ export const useFetchRecipeById = (id: string) => {
           if (userError) console.error(userError.message);
           else setUser(userData);
         }
+
+        // 조회 수 증가
+        // 본인 글에는 조회수 증가지 않는 조건
+        if (recipeData.user_id !== userId) {
+          const { error } = await supabase
+            .from("recipes")
+            .update({ views: recipeData.views + 1 }) 
+            .eq("id", id);
+        
+          if (error) console.error("views fail error:", error.message);
+        }
       } catch (error) {
         console.error("Fetch error:", error);
         setError("예상치 못한 오류가 발생했습니다. 잠시 후에 다시 시도해주세요.");
@@ -74,7 +85,7 @@ export const useFetchRecipeById = (id: string) => {
     };
 
     fetchRecipeById();
-  }, [id]);
+  }, [id, userId]); 
 
   return { recipe, user, loading, error }; 
-}; 
+};
