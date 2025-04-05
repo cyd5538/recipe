@@ -1,13 +1,12 @@
 "use client";
 
 import Header from '@/components/layout/header/Header';
-import RecipeCard from '@/components/Home/recipes/card-view/RecipeCard';
-import { RecipePagenation } from '@/components/Home/recipes/RecipePagenation';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useSearchRecipes } from '@/hooks/useSearchRecipes';
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { CiSearch } from "react-icons/ci";
+import SearchInput from '@/components/search/SearchInput';
+import SearchResults from '@/components/search/SearchResults';
+import { RecipePagenation } from '@/components/Home/recipes/RecipePagenation';
 
 const PAGE_SIZE = 12;
 
@@ -31,24 +30,12 @@ const SearchPage = () => {
     <div>
       <Header />
       <main className="container mx-auto px-4 py-8 max-w-7xl">
-        <h1 className='text-3xl my-4 mb-4 font-semibold'>레시피를 검색해주세요. </h1>
-        <div className='relative top-[31px] left-3'>{loading ?<AiOutlineLoading3Quarters className='animate-spin' size={20}/> : <CiSearch size={20}/> }</div>
-        <input
-          value={search}
-          onChange={(e) => handleSearchChange(e.target.value)}
-          className="border p-2 w-full py-2 mb-4 pl-10 rounded-xl "
-          placeholder="레시피 검색..."
-        />
+        <h1 className='text-3xl my-4 mb-4 font-semibold'>레시피를 검색해주세요. 🍚</h1>
+        <SearchInput value={search} onChange={handleSearchChange} loading={loading} />
 
-        {loading ? (
-          <></>
-        ) : results.length > 0 ? (
+        {!loading && results.length > 0 && (
           <>
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-4 mb-24'>
-              {results.map((recipe) => (
-                <RecipeCard key={recipe.id} recipe={recipe} />
-              ))}
-            </div>
+            <SearchResults results={results} />
             <RecipePagenation
               page={page}
               totalCount={totalCount}
@@ -56,8 +43,10 @@ const SearchPage = () => {
               setPage={setPage}
             />
           </>
-        ) : (
-          <p>검색 결과가 없습니다.</p>
+        )}
+
+        {!loading && results.length === 0 && (
+          <p className="mt-6 text-gray-500">검색 결과가 없습니다.</p>
         )}
       </main>
     </div>
