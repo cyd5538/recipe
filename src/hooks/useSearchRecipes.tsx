@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/client";
 import { RecipeData } from "@/types/type";
 import { useEffect, useState } from "react";
+import { useDebounce } from "./useDebounce";
 
 export const useSearchRecipes = (search: string, page: number, pageSize: number) => {
   const supabase = createClient();
@@ -8,8 +9,10 @@ export const useSearchRecipes = (search: string, page: number, pageSize: number)
   const [loading, setLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
 
+  const debouncedSearch = useDebounce(search, 500); 
+
   useEffect(() => {
-    if (!search) {
+    if (!debouncedSearch) {
       setResults([]);
       return;
     }
@@ -18,17 +21,15 @@ export const useSearchRecipes = (search: string, page: number, pageSize: number)
       setLoading(true);
 
       try {
-        // 제목 검색
         const { data: titleMatches } = await supabase
           .from("recipes")
           .select("*")
-          .ilike("title", `%${search}%`);
+          .ilike("title", `%${debouncedSearch}%`);
 
-        // 태그 검색
         const { data: matchingTags } = await supabase
           .from("tags")
           .select("id")
-          .ilike("name", `%${search}%`);
+          .ilike("name", `%${debouncedSearch}%`);
 
         let tagRecipeMatches: RecipeData[] = [];
 
@@ -71,7 +72,7 @@ export const useSearchRecipes = (search: string, page: number, pageSize: number)
     };
 
     fetchResults();
-  }, [search, page]);
+  }, [debouncedSearch, page]);
 
   return { results, loading, totalCount };
 };
