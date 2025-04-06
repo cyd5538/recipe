@@ -54,6 +54,18 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
 
         setRecipe({ ...recipeData, tags });
 
+        // 좋아요 개수 가져오기
+          const { count: likesCount } = await supabase
+          .from("recipe_likes")
+          .select("*", { count: "exact", head: true })
+          .eq("recipe_id", id);
+
+        setRecipe({
+          ...recipeData,
+          tags,
+          likesCount: likesCount || 0,
+        });
+        
         // 작성자 정보 가져오기
         if (recipeData.user_id) {
           const { data: userData, error: userError } = await supabase

@@ -12,6 +12,7 @@ export interface RecipeData {
   tags?: string[]
   steps: RecipeDataStep[]
   views: number
+  likesCount: number; 
 }
 
 export interface RecipeLocalStorage {

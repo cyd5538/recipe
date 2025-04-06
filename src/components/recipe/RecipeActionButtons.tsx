@@ -4,7 +4,7 @@ import RecipeEditButton from "./RecipeEditButton";
 import RecipeDeleteButton from "./RecipeDeleteButton";
 
 interface Props {
-  userId: string 
+  userId: string
   postId: string | undefined
 }
 
