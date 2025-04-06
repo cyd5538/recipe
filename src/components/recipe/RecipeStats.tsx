@@ -29,10 +29,10 @@ const RecipeStats = ({
   });
 
   return (
-    <div className="flex justify-end gap-4 mb-4 text-gray-700 text-xl">
+    <div className="flex justify-end gap-4 mb-4 text-gray-700 dark:text-white text-xl">
 
       <div className="flex items-center gap-1" title="조회수">
-        <GrView className="text-black text-2xl" />
+        <GrView className=" text-2xl" />
         <span>{viewsCount}</span>
       </div>
 

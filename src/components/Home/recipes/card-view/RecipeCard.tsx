@@ -5,15 +5,13 @@ import RecipeTagList from '../shared/RecipeTagList';
 import RecipeDetails from './RecipeDetailsl';
 import { RecipeData } from '@/types/type';
 import Link from 'next/link';
+import RecipeCardStats from './RecipeCardStats';
 
 interface Prop {
   recipe: RecipeData
 }
 
 const RecipeCard:React.FC<Prop> = ({ recipe }) => {
-
-
-
 
   return (
     <Link href={`/recipe?id=${recipe.id as string}`} className='w-full border cursor-pointer dark:bg-zinc-800 dark:text-white  bg-white text-black h-full dark:border-[1px]  shadow-md rounded-2xl flex flex-col justify-start '>
@@ -27,6 +25,10 @@ const RecipeCard:React.FC<Prop> = ({ recipe }) => {
           cookingTime={recipe.cook_time}
         />
         <RecipeTagList tags={recipe.tags} />
+        <RecipeCardStats
+          viewsCount={recipe.views ?? 0}
+          likesCount={recipe.likesCount ?? 0}
+        />
       </div>
     </Link>
   );
