@@ -35,4 +35,5 @@ export interface User {
   is_active: boolean;
   last_sign_in: string;
   provider: string;
+  nickname: string | null
 }
