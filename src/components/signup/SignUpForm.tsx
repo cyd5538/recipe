@@ -41,7 +41,7 @@ export const SignUpForm = () => {
       }
 
       toast.success("회원가입이 완료되었습니다.", { id: toastId });
-      router.push("/");
+      router.push("/auth/after-login");
     } catch (error) {
       console.error("회원가입 오류:", error);
       toast.error("회원가입 실패", { id: toastId });

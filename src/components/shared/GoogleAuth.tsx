@@ -15,7 +15,9 @@ const GoogleAuth:React.FC<props> = ({text}) => {
     const handleGoogleLogin = async () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: `${window.location.origin}/auth/callback` },
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=/auth/after-login`, 
+        },
       });
     
       if (error) {
