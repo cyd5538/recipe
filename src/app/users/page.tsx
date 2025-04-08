@@ -5,8 +5,8 @@ import { useSearchParams } from "next/navigation";
 import Header from "@/components/layout/header/Header";
 import { motion } from "framer-motion";
 import UserTabs from "@/components/users/UserTabs";
-import UserProfile from "@/components/users/UserProfile";
 import UserRecipes from "@/components/users/UserRecipes";
+import UserProfileEdit from "@/components/users/UserProfileEdit";
 
 const UserPage = () => {
   const searchParams = useSearchParams();
@@ -29,7 +29,7 @@ const UserPage = () => {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.2 }}
           >
-            {activeTab === "profile" && <UserProfile userId={userId}/>}
+            {activeTab === "profile" && <UserProfileEdit userId={userId}/>}
             {activeTab === "my-posts" && <UserRecipes userId={userId}/>}
             {activeTab === "favorites" && <Favorites />}
           </motion.div>
