@@ -37,3 +37,31 @@ export interface User {
   provider: string;
   nickname: string | null
 }
+
+export type CommentUser = Pick<User, "nickname" | "avatar_url">;
+
+export interface Reply {
+  id: string;
+  user_id: string;
+  content: string;
+  created_at: string;
+  user: CommentUser;
+}
+
+export interface Comment {
+  id: string;
+  user_id: string;
+  content: string;
+  likes: number;
+  likedByUser: boolean;
+  created_at: string;
+  user: CommentUser;
+  replies: Reply[];
+}
+
+export interface CommentLike {
+  id: string;
+  recipe_id: string;
+  user_id: string;
+  created_at: string;
+};

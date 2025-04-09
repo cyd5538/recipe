@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { RecipeLocalStorage } from "@/types/type";
 import { useAuthStore } from "@/store/authStore";
 import RecipeLikeButton from "@/components/recipe/RecipeStats";
+import RecipeComment from "@/components/recipe/comment/RecipeComment";
 
 const Home = () => {
   const searchParams = useSearchParams();
@@ -51,6 +52,7 @@ const Home = () => {
         <RecipeSteps steps={recipe.steps} />
         <RecipeTags tags={recipe.tags} />
         <RecipeAuthor user={user} />
+        <RecipeComment postId={recipe.id} userId={recipe.user_id}/>
       </div>
     </>
   );
