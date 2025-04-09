@@ -21,19 +21,20 @@ const RecipeComment: React.FC<Props> = ({ postId }) => {
     fetchComments,
   } = useRecipeComments(postId, userId);
 
-  const { addComment } = useCommentActions({ postId, userId, fetchComments });
+  const { addComment, deleteComment, editComment } = useCommentActions({ postId, userId, fetchComments });
   const { toggleLike } = useCommentLikeToggle(userId, setComments);
 
   return (
-    <div className="mt-10">
+    <div className="my-10">
       <h2 className="text-2xl font-semibold mb-4">💬 댓글</h2>
       <CommentInput onSubmit={(content) => addComment(content)} />
       <RecipeCommentList
         comments={comments}
-        onReplySubmit={(commentId, content) =>
-          addComment(content, commentId)
-        }
+        currentUserId={userId}
+        onReplySubmit={(commentId, content) => addComment(content, commentId)}
         onToggleLike={toggleLike}
+        onDelete={deleteComment}
+        onEdit={editComment}
       />
     </div>
   );

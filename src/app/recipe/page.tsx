@@ -52,7 +52,7 @@ const Home = () => {
         <RecipeSteps steps={recipe.steps} />
         <RecipeTags tags={recipe.tags} />
         <RecipeAuthor user={user} />
-        <RecipeComment postId={recipe.id} userId={recipe.user_id}/>
+        <RecipeComment postId={recipe.id} />
       </div>
     </>
   );
