@@ -97,7 +97,7 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
     };
 
     fetchRecipeById();
-  }, [id, userId]); 
+  }, []); 
 
   return { recipe, user, loading, error }; 
 };
