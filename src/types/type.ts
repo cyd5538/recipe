@@ -4,15 +4,17 @@ export interface RecipeData {
   title: string;
   content: string;
   category: string;
-  cook_time: string 
-  difficulty: string 
-  material_price: string 
-  thumbnail_url: File | string | null
-  ingredients: string[]
-  tags?: string[]
-  steps: RecipeDataStep[]
-  views: number
-  likesCount: number; 
+  cook_time: string;
+  difficulty: string;
+  material_price: string;
+  thumbnail_url: File | string | null;
+  created_at: string;
+  ingredients: string[];
+  steps: RecipeDataStep[];
+  views: number;
+  total_likes: number;
+  total_comments: number;
+  tags: string[];
 }
 
 export interface RecipeLocalStorage {
