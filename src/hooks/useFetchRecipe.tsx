@@ -5,7 +5,12 @@ import { useFilterStore } from "@/store/filterStore";
 import { RecipeData } from "@/types/type";
 import { useEffect, useState } from "react";
 
-export const useFetchRecipe = (page: number, pageSize: number) => {
+
+
+export const useFetchRecipe = (
+  page: number,
+  pageSize: number
+) => {
   const supabase = createClient();
   const { category, time, difficulty, price } = useFilterStore();
 
@@ -21,64 +26,35 @@ export const useFetchRecipe = (page: number, pageSize: number) => {
     const start = (page - 1) * pageSize;
     const end = start + pageSize - 1;
 
-    let query = supabase.from("recipes").select("*", { count: "exact" });
+    let query = supabase
+      .from("recipes_with_meta")
+      .select("*", { count: "exact" });
 
-    if (category && category !== "all" && category !== "") {
+    if (category && category !== "all") {
       query = query.eq("category", category);
     }
-    if (time && time !== "all" && time !== "") {
+    if (time && time !== "all") {
       query = query.eq("cook_time", time);
     }
-    if (difficulty && difficulty !== "all" && difficulty !== "") {
+    if (difficulty && difficulty !== "all") {
       query = query.eq("difficulty", difficulty);
     }
-    if (price && price !== "all" && price !== "") {
+    if (price && price !== "all") {
       query = query.eq("material_price", price);
     }
 
-    const { data: recipeList, error, count } = await query.range(start, end);
+    const { data, error, count } = await query.range(start, end);
 
     if (error) {
-      console.error("recipe fetch error:", error.message);
-      setError(error.message);
-      setLoading(false);
-      return;
+      console.error("fetchRecipes error:", error);
+      setError("레시피 데이터를 불러오는 중 오류가 발생했습니다.");
+      setRecipes([]);
+      setTotalCount(0);
+    } else {
+      setRecipes((data ?? []) as RecipeData[]);
+      setTotalCount(count ?? 0);
     }
 
-    const enrichedRecipes = await Promise.all(
-      (recipeList || []).map(async (recipe) => {
-        // 좋아요 수 가져오기
-        const { count: likesCount } = await supabase
-          .from("recipe_likes")
-          .select("*", { count: "exact", head: true })
-          .eq("recipe_id", recipe.id);
-
-        // 태그 가져오기
-        const { data: tagRelations } = await supabase
-          .from("recipe_tags")
-          .select("tag_id")
-          .eq("recipe_id", recipe.id);
-
-        let tags: string[] = [];
-        if (tagRelations && tagRelations.length > 0) {
-          const tagIds = tagRelations.map((rel) => rel.tag_id);
-          const { data: tagData } = await supabase
-            .from("tags")
-            .select("name")
-            .in("id", tagIds);
-          tags = tagData?.map((tag) => tag.name) || [];
-        }
-
-        return {
-          ...recipe,
-          likesCount: likesCount || 0,
-          tags,
-        };
-      })
-    );
-
-    setRecipes(enrichedRecipes);
-    setTotalCount(count || 0);
     setLoading(false);
   };
 
