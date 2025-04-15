@@ -18,7 +18,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     }
     
     try {
-      // 요청 전에 사용자 ID 기록
       loadedUserIdRef.current = userId;
       
       const { data: profile, error } = await supabase
