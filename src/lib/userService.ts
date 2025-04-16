@@ -39,3 +39,25 @@ export const fetchUserRecipes = async (
 
   return { data };
 };
+
+export const fetchLikedRecipes = async (
+  userId: string
+): Promise<{ data?: RecipeData[]; error?: string }> => {
+  if (!userId) return { error: "유효하지 않은 아이디입니다." };
+
+  const { data, error } = await supabase
+    .from("recipe_likes")
+    .select("recipes(*)")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("fetchLikedRecipes error:", error.message);
+    return { error: error.message };
+  }
+
+  const likedRecipes = (data as { recipes: RecipeData[] }[])
+    .map((like) => Array.isArray(like.recipes) ? like.recipes[0] : like.recipes) 
+    .filter(Boolean); 
+
+  return { data: likedRecipes };
+};

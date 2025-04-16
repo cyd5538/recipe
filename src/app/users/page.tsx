@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import UserTabs from "@/components/users/UserTabs";
 import UserRecipes from "@/components/users/UserRecipes";
 import UserProfileEdit from "@/components/users/UserProfileEdit";
+import UserFavorite from "@/components/users/UserFavorite";
 
 const UserPage = () => {
   const searchParams = useSearchParams();
@@ -31,7 +32,7 @@ const UserPage = () => {
           >
             {activeTab === "profile" && <UserProfileEdit userId={userId}/>}
             {activeTab === "my-posts" && <UserRecipes userId={userId}/>}
-            {activeTab === "favorites" && <Favorites />}
+            {activeTab === "favorites" && <UserFavorite userId={userId}/>}
           </motion.div>
         </div>
       </div>
@@ -40,4 +41,3 @@ const UserPage = () => {
 };
 
 export default UserPage;
-const Favorites = () => <div> 즐겨찾기한 글</div>;
