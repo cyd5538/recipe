@@ -13,7 +13,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const loadFullUser = async (userId: string) => {
     // 이미 동일한 사용자 정보를 요청했다면 중복 요청 방지
     if (loadedUserIdRef.current === userId) {
-      console.log("이미 로드된 사용자 정보입니다. 중복 요청을 방지합니다.", userId);
       return;
     }
     
@@ -52,8 +51,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log("Auth state changed:", event);
-        
         if (!isMounted) return;
         
         if (session?.user) {
