@@ -1,18 +1,41 @@
-import React from 'react'
+"use client";
+import React, { useState } from "react";
+import { usePopularTags } from "@/hooks/usePopularTags";
+import TagItem from "./TagItem";
 
 const TagSection = () => {
-    const mockData = ["한식","중식","양식","일식","돼지고기","소고기","계란","빵","커피","우유","파스타","짜장면", "짬뽕","비빔밥","오향장육", "스시",];
-        
-    return (
-        <div className='mt-4 flex flex-col gap-4 border dark:bg-zinc-800 dark:text-white bg-white text-black p-6 rounded-xl shadow-md dark:border-[1px]  '>
-            <div>인기 태그</div>
-            <div className='flex gap-2 flex-wrap'>
-                {mockData.map((data) => {
-                    return  <div key={data} className='px-2 py-1 border rounded-md cursor-pointer dark:border-zinc-700 hover:bg-gray-100 shadow-md dark:hover:bg-zinc-900'>{data}</div>
-                })}
-            </div>
-        </div>
-    )
-}
+  const [visibleCount, setVisibleCount] = useState(10); 
+  const { tags, loading } = usePopularTags();
 
-export default TagSection
+  const visibleTags = tags.slice(0, visibleCount);
+
+  const handleShowMore = () => {
+    setVisibleCount(visibleCount + 10); 
+  };
+
+  return (
+    <div className="mt-4 flex flex-col gap-4 border dark:bg-zinc-800 dark:text-white bg-white text-black p-6 rounded-xl shadow-md dark:border-[1px] transition-all duration-300 ease-in-out">
+      <div>인기 태그</div>
+      <div className="flex gap-2 flex-wrap min-h-[40px]">
+        {loading ? (
+          <div>로딩 중...</div>
+        ) : (
+          visibleTags.map((tag) => <TagItem key={tag.tag} {...tag} />)
+        )}
+      </div>
+
+      {!loading && tags.length > visibleCount && (
+        <div className="w-full flex justify-end">
+            <button
+            onClick={handleShowMore}
+            className="text-sm text-black dark-text-white hover:underline self-start mt-2"
+            >
+            더보기
+            </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default TagSection;

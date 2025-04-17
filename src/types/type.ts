@@ -67,3 +67,8 @@ export interface CommentLike {
   user_id: string;
   created_at: string;
 };
+
+export interface PopularTag  {
+  tag: string;
+  count: number;
+};

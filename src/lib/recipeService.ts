@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/client";
-import { RecipeData } from "@/types/type";
+import { PopularTag, RecipeData } from "@/types/type";
 import { toast } from "sonner";
 
 const supabase = createClient();
@@ -197,4 +197,20 @@ export const deleteRecipe = async (recipeId: string) => {
     toast.error("레시피 삭제 중 오류가 발생했습니다.");
     return false;
   }
+};
+
+// 인기 태그 가져오기
+export const fetchPopularTags = async (): Promise<{ data?: PopularTag[]; error?: string }> => {
+  const { data, error } = await supabase
+    .from("popular_tags")
+    .select("*")
+    .order("count", { ascending: false })
+    .limit(20);
+
+  if (error) {
+    console.error("인기 태그 가져오기 실패:", error.message);
+    return { error: error.message };
+  }
+
+  return { data };
 };
