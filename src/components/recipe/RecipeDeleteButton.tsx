@@ -22,11 +22,12 @@ const RecipeDeleteButton: React.FC<Props> = ({ recipeId }) => {
   };
 
   return (
-    <CustomButton
-      onClick={handleDeleteRecipe}
-      text="삭제"
-      className="border-red-500 text-red-500 hover:shadow-[4px_4px_0px_0px_rgba(250,20,0)]"
-    />
+    <button 
+    onClick={handleDeleteRecipe} 
+    className="flex items-center gap-1 text-sm px-3 py-2 rounded-md border 
+    border-gray-500 dark:border-zinc-600 hover:bg-gray-100 dark:hover:bg-zinc-700 transition">
+      삭제
+    </button>
   );
 };
 

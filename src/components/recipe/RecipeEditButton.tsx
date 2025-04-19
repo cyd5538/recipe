@@ -1,5 +1,4 @@
 import { useRouter } from "next/navigation";
-import CustomButton from "../ui/CustomButton";
 
 interface Props {
   recipeId: string | undefined
@@ -12,7 +11,14 @@ const RecipeEditButton: React.FC<Props> = ({ recipeId }) => {
     router.push(`/write?id=${recipeId}`);
   };
 
-  return <CustomButton onClick={handleEditRecipe} text="수정" />;
+  return (
+    <button 
+    onClick={handleEditRecipe} 
+    className="flex items-center gap-1 text-sm px-3 py-2 rounded-md border 
+    border-gray-500 dark:border-zinc-600 hover:bg-gray-100 dark:hover:bg-zinc-700 transition">
+      수정
+    </button>
+  )
 };
 
 export default RecipeEditButton;
