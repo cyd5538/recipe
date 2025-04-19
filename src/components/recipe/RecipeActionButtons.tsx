@@ -2,6 +2,7 @@
 import { useAuthStore } from "@/store/authStore";
 import RecipeEditButton from "./RecipeEditButton";
 import RecipeDeleteButton from "./RecipeDeleteButton";
+import RecipeCopyButton from "./RecipeCopyButton";
 
 interface Props {
   userId: string
@@ -17,6 +18,7 @@ const RecipeActionButtons: React.FC<Props> = ({ userId, postId }) => {
 
   return (
     <div className="w-full flex justify-end my-2 gap-2">
+      <RecipeCopyButton />
       <RecipeEditButton recipeId={postId} />
       <RecipeDeleteButton recipeId={postId} />
     </div>
