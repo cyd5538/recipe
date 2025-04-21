@@ -15,6 +15,7 @@ export interface RecipeData {
   total_likes: number;
   total_comments: number;
   tags: string[];
+  likesCount: number
 }
 
 export interface RecipeLocalStorage {
