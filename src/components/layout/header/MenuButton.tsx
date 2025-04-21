@@ -13,8 +13,8 @@ const MenuButton: React.FC<MenuButtonProps> = ({ open, onClick }) => {
       onClick={onClick} 
       className="p-2 rounded-md z-50"
     >
-      {!open ? <RiMenu3Fill color="fff" size={32} className="cursor-pointer" /> 
-             : <MdOutlineClose color="fff" size={32} className="cursor-pointer" />}
+      {!open ? <RiMenu3Fill size={32} className="cursor-pointer" /> 
+             : <MdOutlineClose size={32} className="cursor-pointer" />}
     </button>
   );
 };

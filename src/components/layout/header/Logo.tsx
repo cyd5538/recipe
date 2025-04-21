@@ -7,15 +7,15 @@ const Logo = () => {
   return (
     <Link href="/">
       <button className="flex item-center font-bold text-2xl tracking-wide">
-        <span className="text-white">C</span>
-        <span className="text-white">o</span>
-        <span className="text-white">o</span>
-        <span className="text-white">k</span>
-        <span className="ml-1 text-white">L</span>
-        <span className="text-white">o</span>
-        <span className="text-white">g</span>
+        <span className="">C</span>
+        <span className="">o</span>
+        <span className="">o</span>
+        <span className="">k</span>
+        <span className="ml-1 ">L</span>
+        <span className="">o</span>
+        <span className="">g</span>
         <span className="ml-2 text-2xl mt-1">
-          <CookingPot color="#fff" />
+          <CookingPot />
         </span>
       </button>
     </Link>
