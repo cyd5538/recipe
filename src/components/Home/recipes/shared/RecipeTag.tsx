@@ -16,7 +16,7 @@ const RecipeTag: React.FC<Prop> = ({ text }) => {
 
   return (
     <div 
-      className='border px-4 py-1 dark:text-white dark:bg-zinc-900 border-gray-500 rounded-xl text-sm md:text-base font-light cursor-pointer hover:shadow-md transition-shadow'
+      className='border px-[4px] py-[2px] dark:text-white dark:bg-zinc-800 dark:hover:bg-zinc-900 border-gray-500 rounded-xl text-sm font-light cursor-pointer hover:shadow-md transition-shadow'
       onClick={handleClick}
     >
       {text}
