@@ -31,8 +31,8 @@ const RecipeCopyButton: React.FC = () => {
       >
         {copied ? (
           <>
-            <FiCheck className="text-green-500" />
-            <span className="text-green-500">복사됨</span>
+            <FiCheck className="text-red-500" />
+            <span className="text-red-500">복사됨</span>
           </>
         ) : (
           <>

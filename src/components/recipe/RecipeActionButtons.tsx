@@ -12,15 +12,17 @@ interface Props {
 const RecipeActionButtons: React.FC<Props> = ({ userId, postId }) => {
   const { user } = useAuthStore();
 
-  if (user?.id !== userId) {
-    return null;
-  }
+  const isOwner = user?.id === userId;
 
   return (
     <div className="w-full flex justify-end my-2 gap-2">
       <RecipeCopyButton />
-      <RecipeEditButton recipeId={postId} />
-      <RecipeDeleteButton recipeId={postId} />
+      {isOwner && (
+        <>
+          <RecipeEditButton recipeId={postId} />
+          <RecipeDeleteButton recipeId={postId} />
+        </>
+      )}
     </div>
   );
 };
