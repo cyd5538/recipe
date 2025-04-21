@@ -27,7 +27,7 @@ const RecipeCard:React.FC<Prop> = ({ recipe }) => {
         <RecipeTagList tags={recipe.tags} />
         <RecipeCardStats
           viewsCount={recipe.views ?? 0}
-          likesCount={recipe.likesCount ?? 0}
+          likesCount={recipe.likes_count ?? 0}
         />
       </div>
     </Link>
