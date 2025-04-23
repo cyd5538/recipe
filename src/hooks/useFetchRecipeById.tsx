@@ -15,7 +15,7 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
 
   useEffect(() => {
     if (!id) return;
-
+  
     const fetchRecipeById = async () => {
       setLoading(true);
       setError(null);
@@ -32,15 +32,37 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
           return;
         }
 
-        setRecipe(recipeData);
+        let isFavorited = false;
 
+        // 로그인한 유저가 있을 경우, 즐겨찾기 여부 확인
+        if (userId) {
+          const { data: favoriteData, error: favoriteError } = await supabase
+            .from("favorites")
+            .select("id")
+            .eq("recipe_id", id)
+            .eq("user_id", userId)
+            .maybeSingle();
+
+          if (favoriteError) {
+            console.error("즐겨찾기 여부 확인 실패", favoriteError.message);
+          }
+
+          isFavorited = !!favoriteData;
+        }
+
+        setRecipe({
+          ...recipeData,
+          is_favorited: isFavorited,
+        });
+
+        // 작성자 정보 불러오기
         if (recipeData.user_id) {
           const { data: userData, error: userError } = await supabase
             .from("users")
             .select("*")
             .eq("id", recipeData.user_id)
             .single();
-          
+
           if (userError) console.error(userError.message);
           else setUser(userData);
         }
@@ -63,7 +85,7 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
     };
 
     fetchRecipeById();
-  }, []);
+  }, [id, userId]); 
 
   return { recipe, user, loading, error };
 };

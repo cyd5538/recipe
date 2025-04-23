@@ -35,15 +35,15 @@ const Home = () => {
       });
     }
   }, [recipe]);
- 
+
   if (loading) return <div className="h-screen w-full flex justify-center items-center"><Loading /></div>;
-  if (error || !recipe || !user) return <div>{error || "레시피를 찾을 수 없습니다."}</div>;
+  if (error || !recipe || !user) return <div>{error || "레시피를 찾을 수 없습니다."}</div>; 
 
   return (
     <>
       <Header />
       <div className="container mx-auto px-4 py-8 max-w-5xl">
-        <RecipeActionButtons postId={recipe.id} userId={recipe.user_id}/>
+        <RecipeActionButtons postId={recipe.id} userId={recipe.user_id} isFavorited={recipe.is_favorited}/>
         <RecipeLikeButton viewsCount={recipe.views} likesCount={recipe.likes_count} recipeId={recipe.id} userId={userId?.id} />
         <RecipeHeader recipe={recipe} />
         <RecipeInfo recipe={recipe} />
