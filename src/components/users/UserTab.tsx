@@ -2,10 +2,10 @@ import React from 'react'
 import { motion } from "framer-motion";
 
 interface Prop {
-  activeTab: "profile" | "my-posts" | "favorites"
-  setActiveTab: React.Dispatch<React.SetStateAction<"profile" | "my-posts" | "favorites">>
+  activeTab: "profile" | "my-posts" | "favorites" | "likes"
+  setActiveTab: React.Dispatch<React.SetStateAction<"profile" | "my-posts" | "favorites" | "likes">>
   tab: {
-    id: "profile" | "my-posts" | "favorites";
+    id: "profile" | "my-posts" | "favorites" | "likes";
     label: string;
   }
 }

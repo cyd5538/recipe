@@ -8,11 +8,12 @@ import UserTabs from "@/components/users/UserTabs";
 import UserRecipes from "@/components/users/UserRecipes";
 import UserProfileEdit from "@/components/users/UserProfileEdit";
 import UserFavorite from "@/components/users/UserFavorite";
+import UserLike from "@/components/users/UserLike";
 
 const UserPage = () => {
   const searchParams = useSearchParams();
   const userId = searchParams.get("id");
-  const [activeTab, setActiveTab] = useState<"profile" | "my-posts" | "favorites">("profile");
+  const [activeTab, setActiveTab] = useState<"profile" | "my-posts" | "favorites" | "likes">("profile");
 
   return (
     <div>
@@ -33,6 +34,7 @@ const UserPage = () => {
             {activeTab === "profile" && <UserProfileEdit userId={userId}/>}
             {activeTab === "my-posts" && <UserRecipes userId={userId}/>}
             {activeTab === "favorites" && <UserFavorite userId={userId}/>}
+            {activeTab === "likes" && <UserLike userId={userId}/>}
           </motion.div>
         </div>
       </div>

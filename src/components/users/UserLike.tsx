@@ -1,15 +1,15 @@
+import { useLikedRecipes } from '@/hooks/useLikedRecipes';
 import React from 'react'
 import { RecipeListCardView } from '../Home/recipes/card-view';
 import { motion } from "framer-motion";
 import Loading from '../ui/loading';
-import { useFavoritedRecipes } from '@/hooks/useFavoritedRecipes';
 
 interface Prop {
   userId: string | null
 }
 
-const UserFavorite:React.FC<Prop> = ({ userId }) => {
-  const { recipes, loading, error } = useFavoritedRecipes(userId);
+const UserLike:React.FC<Prop> = ({ userId }) => {
+  const { recipes, loading, error } = useLikedRecipes(userId);
 
   if (loading) return <div className="mt-36"><Loading /></div>;
   if (error) return <div className="text-center py-8 text-red-500">{error}</div>;
@@ -24,4 +24,4 @@ const UserFavorite:React.FC<Prop> = ({ userId }) => {
   )
 }
 
-export default UserFavorite
+export default UserLike

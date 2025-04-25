@@ -61,3 +61,27 @@ export const fetchLikedRecipes = async (
 
   return { data: likedRecipes };
 };
+
+export const fetchFavoritedRecipes = async (
+  userId: string
+): Promise<{ data?: RecipeData[]; error?: string }> => {
+  if (!userId) return { error: "유효하지 않은 아이디입니다." };
+
+  const { data, error } = await supabase
+    .from("favorites")
+    .select("recipes(*)")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("fetchFavoritedRecipes error:", error.message);
+    return { error: error.message };
+  }
+
+  const favoritedRecipes = (data as { recipes: RecipeData | RecipeData[] }[])
+    .map((item) =>
+      Array.isArray(item.recipes) ? item.recipes[0] : item.recipes
+    )
+    .filter(Boolean); 
+
+  return { data: favoritedRecipes };
+};
