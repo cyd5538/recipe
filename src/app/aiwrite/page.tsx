@@ -54,7 +54,7 @@ export default function AIRecipeForm() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4">
+    <div className="min-h-screen flex flex-col items-center">
       <Header />
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
