@@ -3,56 +3,32 @@
 import { motion } from "framer-motion";
 import { SparklesIcon } from "lucide-react";
 import Header from "@/components/layout/header/Header";
-import { useState } from "react";
-import axios from "axios";
+import { useAiRecipe } from "@/hooks/useAiRecipe";
+import { redirect } from "next/navigation";
+import Loading from "@/components/ui/loading";
+import { useAuthStore } from "@/store/authStore";
 
 export default function AIRecipeForm() {
-  const [question, setQuestion] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState("");
+  const { user, loading } = useAuthStore();
 
-  const exampleQuestions = [
-    "초간단 오므라이스 만드는 법",
-    "매콤한 닭볶음탕 레시피",
-    "비오는날 먹기 좋은 국물요리 추천",
-  ];
+  const {
+    question,
+    setQuestion,
+    result,
+    isLoading,
+    handleSubmit,
+    exampleQuestions,
+  } = useAiRecipe();
 
-  const askAiRecipe = async (prompt: string): Promise<string> => {
-    try {
-      const res = await axios.post("/api/ask-ai", { prompt }, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  if(loading) {
+    return <Loading className="w-full h-screen flex justify-center items-center" />
+  }
+
+  if (!user) {
+    redirect("/");
+  }
+
   
-      if (res.status !== 200) {
-        throw new Error(`API 에러 ${res.status}`);
-      }
-  
-      return res.data.result || "응답 없음";
-    } catch (error) {
-      console.error("API 요청 실패 에러", error);
-      throw error;
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!question.trim()) return;
-    setIsLoading(true);
-    setResult("");
-
-    try {
-      const recipe = await askAiRecipe(question);
-      setResult(recipe);
-    } catch (error) {
-      console.error(error);
-      setResult("레시피를 가져오는데 실패했어요. 다시 시도해주세요.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col items-center">
       <Header />
