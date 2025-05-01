@@ -43,7 +43,9 @@ export const saveAiRecipe = async (prompt: string, result: string, userId: strin
     user_id: userId
   };
 
-  const { error } = await supabase.from("ai_recipes").insert([payload]);
+  const { data, error } = await supabase.from("ai_recipes").insert([payload]).select("id").single();
 
   if (error) throw new Error("레시피 저장 실패 --> " + error.message);
+  
+  return data;
 };

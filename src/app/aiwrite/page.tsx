@@ -75,12 +75,6 @@ export default function AIRecipeForm() {
             {isLoading ? "요리 중..." : "질문하기"}
           </motion.button>
         </form>
-
-        {result && (
-          <div className="mt-4 p-4 border border-zinc-200 dark:border-zinc-600 rounded-md bg-zinc-50 dark:bg-zinc-700 text-sm whitespace-pre-wrap">
-            {result}
-          </div>
-        )}
       </motion.div>
     </div>
   );

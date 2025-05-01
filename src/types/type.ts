@@ -1,3 +1,21 @@
+export interface AiRecipe {
+  id: string;
+  user_id: string;
+  title: string;
+  content: string;
+  steps: string[];
+  description: string;
+  ingredients: string[];
+  created_at: string;
+  is_ai_generated: boolean;
+  category: string;
+  cook_time: string;
+  difficulty: string;
+  material_price: string;
+  tags: string[];
+  prompt: string;
+}
+
 export interface RecipeData {
   id: string;
   user_id: string;

@@ -3,9 +3,11 @@
 import { askAiRecipe, saveAiRecipe } from "@/lib/aiRecipeService";
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function useAiRecipe() {
   const { user } = useAuthStore();
+  const router = useRouter();
   
   const [question, setQuestion] = useState<string>("");
   const [result, setResult] = useState("");
@@ -26,7 +28,9 @@ export function useAiRecipe() {
     try {
       const recipe = await askAiRecipe(question);
       setResult(recipe);
-      await saveAiRecipe(question, recipe, user?.id);
+      const response = await saveAiRecipe(question, recipe, user?.id);
+      router.push(`/airecipe/${response.id}`);
+      
     } catch (error) {
       console.error(error);
       setResult("레시피를 가져오거나 저장하는 데 실패했어요. 다시 시도해주세요.");
