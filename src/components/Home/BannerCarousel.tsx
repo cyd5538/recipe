@@ -1,51 +1,38 @@
 'use client';
 
-import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
-import 'swiper/css/effect-fade';
-import { useState } from 'react';
+
 import Carousel1 from './bannerCarousel/Carousel1';
+import Carousel2 from './bannerCarousel/Carousel2';
 
 const slideData = [
-  { content: <Carousel1 />, bgColor: '' },
-  { content: <div>캐러셀 2</div>, bgColor: '' },
-  { content: <div>캐러셀 3</div>, bgColor: '' },
+  { content: <Carousel1 /> },
+  { content: <Carousel2 /> },
+  { content: <div className="text-white text-4xl">캐러셀 3</div> },
 ];
 
 function BannerCarousel() {
-  const [currentCard, setCurrentCard] = useState<number>(0);
   return (
     <Swiper
-      className='h-[300px] dark:bg-zinc-800 dark:text-white   bg-white text-black rounded-xl shadow-md dark:border-[1px]'
+      className="h-[300px] bg-white text-black dark:bg-zinc-800 dark:text-white rounded-xl shadow-md dark:border"
       spaceBetween={0}
       slidesPerView={1}
-      simulateTouch={true}
-      grabCursor={true}
-      centeredSlides={true}
-      initialSlide={currentCard}
-      onSlideChange={(swiper) => {
-        setCurrentCard(swiper.snapIndex);
-      }}
-      observer={true}
-      pagination={{
-        clickable: true,
-      }}
+      simulateTouch
+      grabCursor
       autoplay={{
         delay: 3000,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
       }}
-      effect="fade"
-      fadeEffect={{ crossFade: true }}
-      modules={[Navigation, Pagination, Autoplay, EffectFade]}
+      modules={[Navigation, Pagination, Autoplay]}
     >
       {slideData.map((slide, index) => (
-        <SwiperSlide key={index} >
-          <div className={`h-full w-full flex items-center text-white xl:text-3xl md:text-4xl text-4xl justify-center ${slide.bgColor}`}>
+        <SwiperSlide key={index}>
+          <div className="h-full w-full flex items-center justify-center">
             {slide.content}
           </div>
         </SwiperSlide>

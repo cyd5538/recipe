@@ -123,19 +123,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-
-.swiper-pagination-bullet {
-  background: rgb(194, 15, 15) !important;
-  opacity: 1;
-  width: 10px;
-  height: 10px;
-  transition: all 0.3s ease;
-}
-.dark .swiper-pagination-bullet {
-  background: #fff !important;
-}
-
-.dark .swiper-pagination-bullet-active {
-  background: #fff !important;
-}
