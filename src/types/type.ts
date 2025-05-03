@@ -92,3 +92,11 @@ export interface PopularTag  {
   tag: string;
   count: number;
 };
+
+export interface Plan {
+  id: string;
+  title: string;
+  price: number;
+  coins: number;
+  popular: boolean;
+} 
