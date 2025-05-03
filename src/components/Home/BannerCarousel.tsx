@@ -8,11 +8,12 @@ import 'swiper/css/autoplay';
 
 import Carousel1 from './bannerCarousel/Carousel1';
 import Carousel2 from './bannerCarousel/Carousel2';
+import Carousel3 from './bannerCarousel/Carousel3';
 
 const slideData = [
   { content: <Carousel1 /> },
   { content: <Carousel2 /> },
-  { content: <div className="text-white text-4xl">캐러셀 3</div> },
+  { content: <Carousel3 /> },
 ];
 
 function BannerCarousel() {
