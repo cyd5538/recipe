@@ -2,9 +2,10 @@ import { Plan } from "@/types/type";
 
 interface PlanCardProps {
   plan: Plan;
+  onSelect: () => void;
 }
 
-export default function PlanCard({ plan }: PlanCardProps) {
+export default function PlanCard({ plan, onSelect }: PlanCardProps) {
   return (
     <div 
       className={`relative rounded-2xl shadow-xl p-8 flex flex-col h-full transition-all duration-300 hover:bg-red-500 dark:hover:bg-zinc-700 group ${
@@ -12,6 +13,7 @@ export default function PlanCard({ plan }: PlanCardProps) {
           ? 'bg-white dark:bg-zinc-800 transform scale-105' 
           : 'bg-white dark:bg-zinc-800'
       }`}
+      onClick={onSelect}
     >
       {plan.popular && (
         <div className="absolute top-0 right-0 bg-yellow-400 text-zinc-900 px-3 py-1 rounded-tl-lg rounded-br-lg text-sm font-semibold">
