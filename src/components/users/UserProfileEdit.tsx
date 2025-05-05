@@ -16,11 +16,11 @@ interface Props {
 }
 
 const UserProfileEdit: React.FC<Props> = ({ userId }) => {
-  const { userData, loading, error } = useUserData(userId);
+  const { userData, userCoin, loading, error } = useUserData(userId);
   const [nickname, setNickname] = useState<string>("");
   const [preview, setPreview] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-
+  console.log(userCoin)
   useEffect(() => {
     if (userData?.nickname) setNickname(userData.nickname);
   }, [userData]);
@@ -74,6 +74,18 @@ const UserProfileEdit: React.FC<Props> = ({ userId }) => {
           createdAt={userData.created_at}
         />
       )}
+      <div className="flex items-center justify-between rounded-lg">
+        <div className="flex items-center space-x-2">
+          <span className="font-semibold">보유 코인:</span>
+          <span className="text-red-600 font-bold">{userCoin?.balance ?? 0} 코인</span>
+        </div>
+        <CustomButton 
+          onClick={() => window.location.href = '/pay'}
+          className=""
+        >
+          충전하기
+        </CustomButton>
+      </div>
       <CustomButton onClick={handleSave} className="w-full">
         저장하기
       </CustomButton>

@@ -100,3 +100,7 @@ export interface Plan {
   coins: number;
   popular: boolean;
 } 
+
+export interface UserCoin {
+  balance: number;
+}

@@ -85,3 +85,14 @@ export const fetchFavoritedRecipes = async (
 
   return { data: favoritedRecipes };
 };
+
+
+export const fetchUserCoin = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("coins")
+    .select("balance")
+    .eq("user_id", userId)
+    .single();
+
+  return { data, error };
+};
