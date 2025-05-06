@@ -3,21 +3,15 @@ import React from "react";
 import Link from "next/link";
 
 const Logo = () => {
-
   return (
-    <Link href="/">
-      <button className="flex item-center font-bold text-2xl tracking-wide">
-        <span className="">C</span>
-        <span className="">o</span>
-        <span className="">o</span>
-        <span className="">k</span>
-        <span className="ml-1 ">L</span>
-        <span className="">o</span>
-        <span className="">g</span>
-        <span className="ml-2 text-2xl mt-1">
-          <CookingPot />
-        </span>
-      </button>
+    <Link href="/" className="flex items-center gap-2 group">
+      <div className="relative">
+        <CookingPot className="w-7 h-7 text-red-500 dark:text-red-400 group-hover:rotate-12 transition-transform duration-300" />
+        <div className="absolute -inset-1 bg-red-500/10 dark:bg-red-400/10 rounded-full blur-sm group-hover:bg-red-500/20 dark:group-hover:bg-red-400/20 transition-colors" />
+      </div>
+      <span className="text-xl font-bold text-gray-900 dark:text-white tracking-wide">
+        CookLog
+      </span>
     </Link>
   );
 };

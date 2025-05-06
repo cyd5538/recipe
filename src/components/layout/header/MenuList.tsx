@@ -4,6 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import Link from "next/link";
 import React from "react";
 import { toast } from "sonner";
+import { Home, User, LogOut, BookOpen, PlusCircle, Sparkles, Search, PenSquare } from "lucide-react";
 
 interface MenuListProps {
   onClose: () => void;
@@ -23,42 +24,71 @@ const MenuList: React.FC<MenuListProps> = ({ onClose }) => {
     }
   };
 
+  const getIcon = (text: string) => {
+    switch (text) {
+      case "홈":
+        return <Home className="w-5 h-5" />;
+      case "마이 페이지":
+        return <User className="w-5 h-5" />;
+      case "글 쓰기":
+        return <PenSquare className="w-5 h-5" />;
+      case "로그아웃":
+        return <LogOut className="w-5 h-5" />;
+      case "AI 레시피":
+        return <Sparkles className="w-5 h-5" />;
+      case "검색":
+        return <Search className="w-5 h-5" />;
+      default:
+        return null;
+    }
+  };
+
   const filteredItems = navItems.filter((item) => {
-    if (item.authRequired === "all") return true; 
-    if (item.authRequired) return !!user; 
-    return !user; 
+    if (item.authRequired === "all") return true;
+    if (item.authRequired) return !!user;
+    return !user;
   });
 
   return (
-    <ul className="flex flex-col gap-4 text-lg">
-      {filteredItems.map((item) => {
-        // 로그아웃 버튼만
-        if (!item.href) {
-          return (
-            <li
-              key={item.text} 
-              className="cursor-pointer hover:bg-red-500 px-2 py-2 rounded-lg hover:text-white"
-              onClick={handleLogout}
-            >
-              {item.text}
-            </li>
-          );
-        }
+    <div className="flex flex-col h-full">
+      <div className="flex-1">
+        <ul className="flex flex-col">
+          {filteredItems.map((item) => {
+            if (!item.href) {
+              return (
+                <li
+                  key={item.text}
+                  className="group cursor-pointer transition-all duration-200"
+                  onClick={handleLogout}
+                >
+                  <div className="flex items-center gap-3 px-4 py-3.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all">
+                    {getIcon(item.text)}
+                    <span className="font-medium">{item.text}</span>
+                  </div>
+                </li>
+              );
+            }
 
-        // mypage일 경우 id 추가
-        const href = item.dynamic && user ? `${item.href}?id=${user.id}` : item.href;
+            const href = item.dynamic && user ? `${item.href}?id=${user.id}` : item.href;
 
-        return (
-          <li
-            key={href}
-            className="cursor-pointer hover:bg-red-400 px-2 py-2 rounded-lg hover:text-white"
-            onClick={onClose}
-          >
-            <Link href={href} className="block w-full h-full">{item.text}</Link>
-          </li>
-        );
-      })}
-    </ul>
+            return (
+              <li
+                key={href}
+                className="group cursor-pointer transition-all duration-200"
+                onClick={onClose}
+              >
+                <Link href={href} className="block">
+                  <div className="flex items-center gap-3 px-4 py-3.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all">
+                    {getIcon(item.text)}
+                    <span className="font-medium">{item.text}</span>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
   );
 };
 
