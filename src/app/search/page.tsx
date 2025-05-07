@@ -45,7 +45,7 @@ const SearchPage = () => {
           </>
         )}
 
-        {!loading && results.length === 0 && (
+        {!loading && results.length === 0 && search && (
           <p className="mt-6 text-gray-500">검색 결과가 없습니다.</p>
         )}
       </main>
