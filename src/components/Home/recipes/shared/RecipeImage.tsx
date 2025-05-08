@@ -4,17 +4,20 @@ import React from 'react';
 interface Prop {
   src: string
   alt: string
+  className?: string
 }
 
-const RecipeImage:React.FC<Prop> = ({ src, alt }) => {
+const RecipeImage:React.FC<Prop> = ({ src, alt, className = '' }) => {
   return (
-    <div className='relative w-full h-52'>
+    <div className='relative w-full aspect-[4/3] overflow-hidden'>
       <Image 
-        className='object-cover rounded-md' 
+        className={`object-cover w-full h-full ${className}`}
         fill 
-        sizes="(max-width: 768px) 100vw, 300px" // 768px 이하일 땐 100% 이미지3
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         src={src} 
-        alt={alt} 
+        alt={alt}
+        priority
+        quality={100}
       />
     </div>
   );

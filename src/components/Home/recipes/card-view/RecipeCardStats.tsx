@@ -1,31 +1,34 @@
-import { GrView } from "react-icons/gr";
-import { AiFillHeart } from "react-icons/ai";
-import { FaRegCommentDots } from "react-icons/fa";
-interface Props {
-  viewsCount: number;
+import React from 'react';
+import { Heart, Eye, MessageCircle } from 'lucide-react';
+
+interface RecipeCardStatsProps {
   likesCount: number;
+  viewsCount: number;
   commentsCount: number;
 }
 
-const RecipeCardStats = ({ viewsCount, commentsCount, likesCount }: Props) => {
+const RecipeCardStats: React.FC<RecipeCardStatsProps> = ({
+  likesCount,
+  viewsCount,
+  commentsCount,
+}) => {
   return (
-    <div>
-    <div className="flex justify-between items-center gap-2 my-4 text-gray-600 dark:text-white text-sm px-1">
-      <div className="flex items-center gap-1">
-        <GrView  size={20}/>
-        <span>{viewsCount}</span>
-      </div>
-      <div className="flex items-center gap-1">
-        <FaRegCommentDots  size={20}/>
-        <span>{commentsCount}</span>
-      </div>
-      <div className="flex items-center gap-1">
-        <AiFillHeart size={20} className="text-red-500" />
-        <span>{likesCount}</span>
+    <div className="mt-4 flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
+      <div className="flex items-center space-x-6">
+        <div className="flex items-center">
+          <Heart className="w-5 h-5 mr-1.5 text-red-500" />
+          <span>{likesCount}</span>
+        </div>
+        <div className="flex items-center">
+          <Eye className="w-5 h-5 mr-1.5 text-blue-500" />
+          <span>{viewsCount}</span>
+        </div>
+        <div className="flex items-center">
+          <MessageCircle className="w-5 h-5 mr-1.5 text-green-500" />
+          <span>{commentsCount}</span>
+        </div>
       </div>
     </div>
-    </div>
-      
   );
 };
 
