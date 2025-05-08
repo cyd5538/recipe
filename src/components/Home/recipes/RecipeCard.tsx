@@ -1,12 +1,12 @@
 import React from 'react';
-import RecipeImage from '../shared/RecipeImage';
-import RecipeTitle from '../shared/RecipeTitle';
-import RecipeTagList from '../shared/RecipeTagList';
 import RecipeDetails from './RecipeDetailsl';
 import { RecipeData } from '@/types/type';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import RecipeCardStats from './RecipeCardStats';
+import RecipeImage from './shared/RecipeImage';
+import RecipeTitle from './shared/RecipeTitle';
+import RecipeTagList from './shared/RecipeTagList';
 
 interface Prop {
   recipe: RecipeData
