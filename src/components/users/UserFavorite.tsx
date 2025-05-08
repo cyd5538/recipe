@@ -1,8 +1,8 @@
 import React from 'react'
-import { RecipeListCardView } from '../Home/recipes/card-view';
 import { motion } from "framer-motion";
 import Loading from '../ui/loading';
 import { useFavoritedRecipes } from '@/hooks/useFavoritedRecipes';
+import RecipeListCardView from '../Home/recipes/RecipeListCardView';
 
 interface Prop {
   userId: string | null

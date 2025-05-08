@@ -2,7 +2,7 @@ import React from 'react'
 import { useUserData } from '@/hooks/useUserData'
 import { motion } from "framer-motion";
 import Loading from '../ui/loading';
-import { RecipeListCardView } from '../Home/recipes/card-view';
+import RecipeListCardView from '../Home/recipes/RecipeListCardView';
 
 interface Prop {
   userId: string | null

@@ -1,5 +1,5 @@
 import { RecipeData } from '@/types/type';
-import RecipeCard from '@/components/Home/recipes/card-view/RecipeCard';
+import RecipeCard from '../Home/recipes/RecipeCard';
 
 interface SearchResultsProps {
   results: RecipeData[];
