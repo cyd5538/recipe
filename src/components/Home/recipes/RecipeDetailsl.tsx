@@ -14,6 +14,12 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({
   difficulty,
   cookingTime,
 }) => {
+  const stripHtml = (html: string) => {
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+  };
+
   const getDifficultyStars = (level: string) => {
     switch (level.toLowerCase()) {
       case '쉬움':
@@ -54,10 +60,9 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({
 
   return (
     <div className="space-y-3">
-      <div 
-        className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2"
-        dangerouslySetInnerHTML={{ __html: description }}
-      />
+      <div className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+        {stripHtml(description)}
+      </div>
       
       <div className="flex flex-wrap items-center gap-2">
         <div className={`px-3 py-1 rounded-full text-xs font-medium ${getCategoryColor(category)}`}>
