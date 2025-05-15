@@ -49,3 +49,18 @@ export const saveAiRecipe = async (prompt: string, result: string, userId: strin
   
   return data;
 };
+
+
+export const getAiRecipeById = async (id: string) => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("ai_recipes")
+    .select("*") 
+    .eq("id", id)
+    .single();
+
+  if (error) throw new Error("레시피 불러오기 실패 --> " + error.message);
+
+  return data ?? null;
+};

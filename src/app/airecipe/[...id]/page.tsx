@@ -1,8 +1,13 @@
 "use client";
 
 import Header from "@/components/layout/header/Header";
-import React, { use } from 'react';
-import { useRouter } from 'next/navigation';
+import { useAiRecipeById } from "@/hooks/useAiRecipeById";
+import { use } from "react";
+import AiRecipeHeader from "@/components/airecipe/AiRecipeHeader";
+import AiRecipeDescription from "@/components/airecipe/AiRecipeDescription";
+import AiRecipeIngredients from "@/components/airecipe/AiRecipeIngredients";
+import AiRecipeSteps from "@/components/airecipe/AiRecipeSteps";
+import RecipeComment from "@/components/recipe/comment/RecipeComment";
 
 interface PageProps {
   params: Promise<{
@@ -11,41 +16,67 @@ interface PageProps {
 }
 
 export default function RecipeDetail({ params }: PageProps) {
-  const router = useRouter();
   const resolvedParams = use(params);
-  const { id } = resolvedParams;
+  const recipeId = resolvedParams.id?.[0];
+  const { recipe, isLoading, error } = useAiRecipeById(recipeId);
+  const recipeData = recipe as any;
 
-  const saveAiRecipe = async () => {
-    try {
-      const response = await fetch('/api/ai-recipe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id }),
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        router.push(`/aiwrite/${data.id}`);
-      }
-    } catch (error) {
-      console.error('레시피 저장 중 오류 발생:', error);
-    }
-  };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-zinc-50">
+        <Header />
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex items-center justify-center h-[60vh]">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-zinc-50">
+        <Header />
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex items-center justify-center h-[60vh]">
+            <p className="text-red-500 text-xl">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <>
+    <div className="min-h-screen bg-zinc-50">
       <Header />
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
-        <h1>{id}</h1>
-        <button 
-          onClick={saveAiRecipe}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          레시피 저장
-        </button>
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        {recipeData && (
+          <>
+            <AiRecipeHeader
+              title={recipeData.title}
+              content={recipeData.content}
+              category={recipeData.category}
+              difficulty={recipeData.difficulty}
+              cookTime={recipeData.cook_time}
+              materialPrice={recipeData.material_price}
+              isAiGenerated={recipeData.is_ai_generated}
+              tags={recipeData.tags}
+              createdAt={recipeData.created_at}
+            />
+            
+            <AiRecipeDescription 
+              description={recipeData.description || recipeData.prompt} 
+            />
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <AiRecipeIngredients ingredients={recipeData.ingredients} />
+              <AiRecipeSteps steps={recipeData.steps} />
+            </div>
+
+          </>
+        )}
       </div>
-    </>
+    </div>
   );
 }
