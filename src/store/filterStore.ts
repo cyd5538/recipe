@@ -12,7 +12,7 @@ interface FilterState {
 }
 
 export const useFilterStore = create<FilterState>((set) => ({
-  category: "", 
+  category: "all", 
   time: "",
   difficulty: "",
   price: "",

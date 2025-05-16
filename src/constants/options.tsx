@@ -22,15 +22,16 @@ export const timeOptions = [
 ];
 
 export const difficultyOptions = [
+    { value: "all", label: "All" },
     { value: "하", label: "하" },
     { value: "중", label: "중" },
     { value: "상", label: "상" },
 ];
 
 export const priceOptions = [
+    { value: "all", label: "All" },
     { value: "10,000원", label: "10,000원" },
     { value: "20,000원", label: "20,000원" },
     { value: "50,000원", label: "50,000원" },
     { value: "100,000원", label: "100,000원" },
-    { value: "기타", label: "기타" },
 ];

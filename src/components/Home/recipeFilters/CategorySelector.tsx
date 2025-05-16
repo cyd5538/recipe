@@ -7,7 +7,7 @@ import Dropdown from "@/components/shared/Dropdown";
 
 
 const CategorySelector = () => {
-  const { category, setCategory } = useFilterStore();
+  const { category = "all", setCategory } = useFilterStore();
   return <Dropdown label="카테고리" options={categoryOptions} selectedValue={category} onSelect={setCategory} variant="category" />;
 };
 

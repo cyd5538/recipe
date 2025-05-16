@@ -27,7 +27,7 @@ const Dropdown = <T extends { value: string; label: string; icon?: JSX.Element }
     <div className={`relative w-full z-40 ${variant === "category" ? "custom-category-style" : ""}`} ref={dropdownRef}>
       <DropdownButton
         label={label}
-        selectedValue={options.find((opt) => opt.value === selectedValue)?.label}
+        selectedValue={selectedValue === 'all' ? label : options.find((opt) => opt.value === selectedValue)?.label}
         onToggle={() => setIsOpen((prev) => !prev)}
         variant={variant} 
       />
