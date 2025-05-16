@@ -3,8 +3,8 @@ import { userTabs } from "@/constants/mypage";
 import UserTab from './UserTab';
 
 interface Prop {
-  activeTab: "profile" | "my-posts" | "favorites" | "likes"
-  setActiveTab: React.Dispatch<React.SetStateAction<"profile" | "my-posts" | "favorites" | "likes">>
+  activeTab: "profile" | "my-posts" | "favorites" | "likes" | "ai-posts"
+  setActiveTab: React.Dispatch<React.SetStateAction<"profile" | "my-posts" | "favorites" | "likes" | "ai-posts">>
 }
 
 const UserTabs:React.FC<Prop> = ({activeTab, setActiveTab}) => {

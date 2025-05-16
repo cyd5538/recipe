@@ -64,3 +64,24 @@ export const getAiRecipeById = async (id: string) => {
 
   return data ?? null;
 };
+
+export const getAiRecipesByUserId = async (userId: string) => {
+  if (!userId) {
+    throw new Error("유저 정보가 없습니다.");
+  }
+
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("ai_recipes")
+    .select("*") 
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false }); 
+
+  if (error) {
+    console.error("Error fetching AI recipes by user ID:", error);
+    throw new Error("AI 생성 레시피 목록을 불러오는데 실패했습니다 --> " + error.message);
+  }
+
+  return data || []
+};
