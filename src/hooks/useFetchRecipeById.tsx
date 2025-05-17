@@ -1,21 +1,20 @@
 "use client";
 
 import { createClient } from "@/lib/client";
-import { RecipeData, User } from "@/types/type";
+import { RecipeData } from "@/types/type";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export const useFetchRecipeById = (id: string, userId?: string) => {
   const router = useRouter();
   const supabase = createClient();
-  const [user, setUser] = useState<User | null>(null);
   const [recipe, setRecipe] = useState<RecipeData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
-  
+
     const fetchRecipeById = async () => {
       setLoading(true);
       setError(null);
@@ -34,7 +33,7 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
 
         let isFavorited = false;
 
-        // 로그인한 유저가 있을 경우, 즐겨찾기 여부 확인
+        // 즐겨찾기 여부 확인 (로그인한 유저 있을 때)
         if (userId) {
           const { data: favoriteData, error: favoriteError } = await supabase
             .from("favorites")
@@ -55,19 +54,7 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
           is_favorited: isFavorited,
         });
 
-        // 작성자 정보 불러오기
-        if (recipeData.user_id) {
-          const { data: userData, error: userError } = await supabase
-            .from("users")
-            .select("*")
-            .eq("id", recipeData.user_id)
-            .single();
-
-          if (userError) console.error(userError.message);
-          else setUser(userData);
-        }
-
-        // 조회 수 증가 (본인 제외)
+        // 조회수 증가 (작성자 본인 제외)
         if (recipeData.user_id !== userId) {
           const { error } = await supabase
             .from("recipes")
@@ -85,7 +72,7 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
     };
 
     fetchRecipeById();
-  }, [id, userId]); 
+  }, [id, userId]);
 
-  return { recipe, user, loading, error };
+  return { recipe, loading, error };
 };

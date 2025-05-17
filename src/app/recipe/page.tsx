@@ -23,9 +23,9 @@ const Home = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id") ?? "";
   const { user: userId } = useAuthStore()
-  const { recipe, user, loading, error } = useFetchRecipeById(id, userId?.id);
+  const { recipe, loading, error } = useFetchRecipeById(id, userId?.id);
   const [ , addRecentRecipe] = useLocalStorageArray<RecipeLocalStorage>("recentRecipes");
-
+  console.log(recipe);
   useEffect(() => {
     if (recipe && typeof recipe.thumbnail_url === "string") {
       addRecentRecipe({
@@ -37,7 +37,7 @@ const Home = () => {
   }, [recipe]);
 
   if (loading) return <div className="h-screen w-full flex justify-center items-center"><Loading /></div>;
-  if (error || !recipe || !user) return <div>{error || "레시피를 찾을 수 없습니다."}</div>; 
+  if (error || !recipe ) return <div>{error || "레시피를 찾을 수 없습니다."}</div>; 
 
   return (
     <>
@@ -51,7 +51,7 @@ const Home = () => {
         <RecipeContent content={recipe.content} /> 
         <RecipeSteps steps={recipe.steps} />
         <RecipeTags tags={recipe.tags} />
-        <RecipeAuthor user={user} />
+        <RecipeAuthor nickname={recipe.author_nickname} avatar_url={recipe.author_avatar_url}  user_id={recipe.user_id}/>
         <RecipeComment postId={recipe.id} />
       </div>
     </>

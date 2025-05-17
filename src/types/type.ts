@@ -34,7 +34,9 @@ export interface RecipeData {
   total_comments: number;
   tags: string[];
   likes_count: number
-  is_favorited: boolean;
+  author_nickname: string;    
+  author_avatar_url: string;     
+  is_favorited: boolean; 
 }
 
 export interface RecipeLocalStorage {
