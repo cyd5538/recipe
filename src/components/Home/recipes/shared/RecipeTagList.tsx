@@ -13,7 +13,7 @@ const RecipeTagList: React.FC<RecipeTagListProps> = ({ tags }) => {
   const handleTagClick = (e: React.MouseEvent, tag: string) => {
     e.preventDefault();
     e.stopPropagation();
-    router.push(`/search?id=${encodeURIComponent(tag)}`);
+    router.push(`/search?keyword=${encodeURIComponent(tag.trim())}`);
   };
 
   return (

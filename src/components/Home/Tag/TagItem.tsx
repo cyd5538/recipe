@@ -1,16 +1,16 @@
 import React from "react";
 import { useRouter } from 'next/navigation';
 
-type TagItemProps = {
+interface TagItemProps {
   tag: string;
   count: number;
-};
+}
 
 const TagItem: React.FC<TagItemProps> = ({ tag, count }) => {
-   const router = useRouter();
+  const router = useRouter();
   
   const handleSearchTag = () => {
-    router.push(`/search?id=${encodeURIComponent(tag.trim())}`);
+    router.push(`/search?keyword=${encodeURIComponent(tag.trim())}`);
   };
 
   return (
