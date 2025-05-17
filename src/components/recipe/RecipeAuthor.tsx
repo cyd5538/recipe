@@ -9,7 +9,7 @@ interface RecipeAuthorProps {
 
 const RecipeAuthor: React.FC<RecipeAuthorProps> = ({ nickname, avatar_url, user_id }) => {
   const imageUrl = avatar_url || "/avatar.webp";
-  console.log(nickname, avatar_url, user_id);
+  
   return (
     <div className="mt-4 flex items-center gap-4 p-4 rounded-xl justify-center">
       <div className="flex flex-col justify-center items-center">
