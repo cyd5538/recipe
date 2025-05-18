@@ -18,14 +18,15 @@ import { RecipeLocalStorage } from "@/types/type";
 import { useAuthStore } from "@/store/authStore";
 import RecipeLikeButton from "@/components/recipe/RecipeStats";
 import RecipeComment from "@/components/recipe/comment/RecipeComment";
+import RecipeAuthorRecipes from "@/components/recipe/RecipeAuthorRecipes";
 
 const Home = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id") ?? "";
   const { user: userId } = useAuthStore()
-  const { recipe, loading, error } = useFetchRecipeById(id, userId?.id);
+  const { recipe, authorRecipes, loading, error } = useFetchRecipeById(id, userId?.id);
   const [ , addRecentRecipe] = useLocalStorageArray<RecipeLocalStorage>("recentRecipes");
-  console.log(recipe);
+
   useEffect(() => {
     if (recipe && typeof recipe.thumbnail_url === "string") {
       addRecentRecipe({
@@ -52,6 +53,7 @@ const Home = () => {
         <RecipeSteps steps={recipe.steps} />
         <RecipeTags tags={recipe.tags} />
         <RecipeAuthor nickname={recipe.author_nickname} avatar_url={recipe.author_avatar_url}  user_id={recipe.user_id}/>
+        <RecipeAuthorRecipes nickname={recipe.author_nickname}   recipes={authorRecipes} />
         <RecipeComment postId={recipe.id} />
       </div>
     </>

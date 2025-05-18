@@ -1,5 +1,3 @@
-"use client";
-
 import { createClient } from "@/lib/client";
 import { RecipeData } from "@/types/type";
 import { useEffect, useState } from "react";
@@ -9,6 +7,7 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
   const router = useRouter();
   const supabase = createClient();
   const [recipe, setRecipe] = useState<RecipeData | null>(null);
+  const [authorRecipes, setAuthorRecipes] = useState<RecipeData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,6 +53,21 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
           is_favorited: isFavorited,
         });
 
+        // 작성자의 다른 레시피 가져오기 
+        const { data: others, error: othersError } = await supabase
+          .from("recipes_with_meta")
+          .select("*")
+          .eq("user_id", recipeData.user_id)
+          .neq("id", id)
+          .order("created_at", { ascending: false }) // 최신순 정렬
+          .limit(5); // 최대 5개만
+
+        if (othersError) {
+          console.error("작성자 다른 글 가져오기 실패:", othersError.message);
+        } else {
+          setAuthorRecipes(others);
+        }
+
         // 조회수 증가 (작성자 본인 제외)
         if (recipeData.user_id !== userId) {
           const { error } = await supabase
@@ -74,5 +88,5 @@ export const useFetchRecipeById = (id: string, userId?: string) => {
     fetchRecipeById();
   }, [id, userId]);
 
-  return { recipe, loading, error };
+  return { recipe, authorRecipes, loading, error };
 };
