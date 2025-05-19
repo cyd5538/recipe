@@ -1,60 +1,59 @@
 "use client";
 
-import { createClient } from "@/lib/client";
-import { useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa"; // Heart icons
-import { useAuthStore } from "@/store/authStore";
+import { FaRegHeart } from "react-icons/fa";
+import { motion } from "framer-motion";
+import FavoriteFolderModal from "./FavoriteFolderModal";
+import { useRecipeFavorite } from "@/hooks/useRecipeFavorite";
 
 interface Props {
   recipeId: string;
-  initialFavorited: boolean;
 }
 
-const RecipeFavoriteButton: React.FC<Props> = ({ recipeId, initialFavorited }) => {
-  const supabase = createClient();
-  const { user } = useAuthStore();
-  const [isFavorited, setIsFavorited] = useState<boolean>(initialFavorited);
-  const [loading, setLoading] = useState(false);
-
-  const toggleFavorite = async () => {
-    if (!user) return alert("로그인이 필요합니다.");
-
-    setLoading(true);
-
-    if (isFavorited) {
-      // 즐겨찾기 삭제
-      const { error } = await supabase
-        .from("favorites")
-        .delete()
-        .eq("recipe_id", recipeId)
-        .eq("user_id", user.id);
-
-      if (!error) setIsFavorited(false);
-      else console.error("즐겨찾기 삭제 실패:", error.message);
-    } else {
-      // 즐겨찾기 추가
-      const { error } = await supabase.from("favorites").insert({
-        recipe_id: recipeId,
-        user_id: user.id,
-      });
-
-      if (!error) setIsFavorited(true);
-      else console.error("즐겨찾기 추가 실패:", error.message);
-    }
-
-    setLoading(false);
-  };
+const RecipeFavoriteButton: React.FC<Props> = ({ recipeId }) => {
+  const {
+    isModalOpen,
+    folders,
+    loading,
+    error,
+    setIsModalOpen,
+    toggleFavorite,
+    handleFolderCreate,
+    handleFolderSelect,
+  } = useRecipeFavorite({ recipeId });
 
   return (
-    <button
-      className="flex items-center gap-1 text-sm px-3 w-[130px] justify-center py-2 rounded-md border 
-    border-gray-500 dark:border-zinc-600 hover:bg-gray-100 dark:hover:bg-zinc-700 transition"
-      onClick={toggleFavorite}
-      disabled={loading}
-    >
-      {isFavorited ? <FaHeart color="red"/> : <FaRegHeart color="red"/>}
-      {isFavorited ? "즐겨찾기 취소" : "즐겨찾기"}
-    </button>
+    <>
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={toggleFavorite}
+        disabled={loading}
+        className="group relative flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200
+          bg-gray-50 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-red-100 dark:hover:bg-zinc-700"
+      >
+        <motion.div
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <FaRegHeart className="text-gray-400 dark:text-gray-500 group-hover:text-red-400 dark:group-hover:text-red-400" />
+        </motion.div>
+        <span className="font-medium">
+          즐겨찾기
+        </span>
+      </motion.button>
+
+      <FavoriteFolderModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+        }}
+        folders={folders}
+        onCreateFolder={handleFolderCreate}
+        onSelectFolder={handleFolderSelect}
+        error={error}
+        loading={loading}
+      />
+    </>
   );
 };
 

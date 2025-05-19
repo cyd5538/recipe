@@ -106,3 +106,9 @@ export interface Plan {
 export interface UserCoin {
   balance: number;
 }
+
+export interface Folder {
+  id: string;
+  name: string;
+  count: number;
+}

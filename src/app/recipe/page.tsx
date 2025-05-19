@@ -44,7 +44,7 @@ const Home = () => {
     <>
       <Header />
       <div className="container mx-auto px-4 py-8 max-w-5xl">
-        <RecipeActionButtons postId={recipe.id} userId={recipe.user_id} isFavorited={recipe.is_favorited}/>
+        <RecipeActionButtons postId={recipe.id} userId={recipe.user_id} />
         <RecipeLikeButton viewsCount={recipe.views} likesCount={recipe.likes_count} recipeId={recipe.id} userId={userId?.id} />
         <RecipeHeader recipe={recipe} />
         <RecipeInfo recipe={recipe} />
