@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchFavoritedRecipes } from "@/lib/userService"; 
-import { RecipeData } from "@/types/type";
+import { fetchFavoriteFolders } from "@/lib/userFavoriteFolder";
+import { Folder } from "@/lib/userFavoriteFolder";
 
-export const useFavoritedRecipes = (userId: string | null) => {
-  const [recipes, setRecipes] = useState<RecipeData[]>([]);
+export const useFavoriteFolders = (userId: string | null) => {
+  const [folders, setFolders] = useState<Folder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,14 +15,10 @@ export const useFavoritedRecipes = (userId: string | null) => {
       setError(null);
 
       try {
-        const result = await fetchFavoritedRecipes(userId);
-        if (result.error) {
-          setError(result.error);
-        } else if (result.data) {
-          setRecipes(result.data);
-        }
+        const result = await fetchFavoriteFolders();
+        setFolders(result);
       } catch (err) {
-        setError("즐겨찾기한 레시피를 불러오는 중 오류가 발생했습니다.");
+        setError("즐겨찾기 폴더를 불러오는 중 오류가 발생했습니다.");
       } finally {
         setLoading(false);
       }
@@ -31,5 +27,5 @@ export const useFavoritedRecipes = (userId: string | null) => {
     fetchData();
   }, [userId]);
 
-  return { recipes, loading, error };
+  return { folders, loading, error };
 };

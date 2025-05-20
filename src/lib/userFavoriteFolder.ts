@@ -1,9 +1,21 @@
 import { createClient } from "./client";
+import { RecipeData } from "@/types/type";
+
+export interface FolderRecipe {
+  id: string;
+  title: string;
+  thumbnail_url: string | null;
+  cook_time: number;
+  difficulty: string;
+  material_price: string;
+  created_at: string;
+}
 
 export interface Folder {
   id: string;
   name: string;
   count: number;
+  recipes: FolderRecipe[];
 }
 
 export async function fetchFavoriteFolders() {
@@ -17,7 +29,18 @@ export async function fetchFavoriteFolders() {
     .select(`
       id,
       name,
-      bookmark_group_recipes(id)
+      bookmark_group_recipes(
+        recipe_id,
+        recipes(
+          id,
+          title,
+          thumbnail_url,
+          cook_time,
+          difficulty,
+          material_price,
+          created_at
+        )
+      )
     `)
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
@@ -28,6 +51,10 @@ export async function fetchFavoriteFolders() {
     id: folder.id,
     name: folder.name,
     count: folder.bookmark_group_recipes.length,
+    recipes: folder.bookmark_group_recipes
+      .map((item) => item.recipes)
+      .flat()
+      .filter((recipe): recipe is NonNullable<typeof recipe> => recipe !== null)
   }));
 
   return folders;

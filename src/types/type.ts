@@ -107,8 +107,19 @@ export interface UserCoin {
   balance: number;
 }
 
+export interface FolderRecipe {
+  id: string;
+  title: string;
+  thumbnail_url: string | null;
+  cook_time: number;
+  difficulty: string;
+  material_price: string;
+  created_at: string;
+}
+
 export interface Folder {
   id: string;
   name: string;
   count: number;
+  recipes: FolderRecipe[];
 }
