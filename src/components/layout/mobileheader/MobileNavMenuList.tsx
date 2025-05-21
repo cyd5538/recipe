@@ -3,12 +3,14 @@ import Link from 'next/link';
 import React from 'react';
 
 interface Prop {
-  href: string;
+  href: string | undefined;
   text: string;
 }
 
 const MobileNavMenuList: React.FC<Prop> = ({ href, text }) => {
   const { user } = useAuthUser();
+
+  if (!href) return null;
 
   const linkHref =
     text === "마이 페이지" && user?.id

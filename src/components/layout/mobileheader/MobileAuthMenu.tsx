@@ -27,7 +27,11 @@ export const MobileAuthMenu = () => {
 				<>
 					{authItems.map((item) => (
 						<li key={item.href} className="text-end text-lg font-semibold w-full rounded-xl hover:bg-gray-100 hover:underline p-2 cursor-pointer transition-all delay-75">
-							<Link href={item.href}>{item.text}</Link>
+							{item.href ? (
+								<Link href={item.href}>{item.text}</Link>
+							) : (
+								<span>{item.text}</span>
+							)}
 						</li>
 					))}
 				</>
