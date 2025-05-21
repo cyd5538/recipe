@@ -14,7 +14,7 @@ interface Prop {
 }
 
 const UserFavorite: React.FC<Prop> = ({ userId }) => {
-  const { folders, loading, error } = useFavoriteFolders(userId);
+  const { folders, loading, error, createFolder } = useFavoriteFolders(userId);
   const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,9 +25,13 @@ const UserFavorite: React.FC<Prop> = ({ userId }) => {
     }
   }, [folders, selectedFolder]);
 
-  const handleAddFolder = (name: string) => {
-    // TODO: 폴더 추가 로직 구현
-    console.log('새 폴더 추가:', name);
+  const handleAddFolder = async (name: string) => {
+    try {
+      await createFolder(name);
+      setIsModalOpen(false);
+    } catch (err) {
+      console.error('폴더 생성 실패:', err);
+    }
   };
 
   // FolderRecipe를 RecipeData로 변환하는 함수 (RecipeCard 재사용하기 위한 함수)
@@ -101,6 +105,7 @@ const UserFavorite: React.FC<Prop> = ({ userId }) => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAdd={handleAddFolder}
+        loading={loading}
       />
     </motion.div>
   );

@@ -60,6 +60,29 @@ export async function fetchFavoriteFolders() {
   return folders;
 }
 
+export const deleteFavoriteFolder = async (folderId: string) => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("bookmark_groups")
+    .delete()
+    .eq("id", folderId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const renameFavoriteFolder = async (folderId: string, newName: string) => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("bookmark_groups")
+    .update({ name: newName })
+    .eq("id", folderId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+};
 export async function createFavoriteFolder(name: string) {
   const supabase = createClient();
 
