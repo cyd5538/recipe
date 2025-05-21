@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 
 interface Props {
@@ -6,10 +6,27 @@ interface Props {
   onClose: () => void;
   onAdd: (name: string) => Promise<void>;
   loading: boolean;
+  initialValue?: string;
+  title?: string;
+  submitText?: string;
 }
 
-const UserAddFolderModal: React.FC<Props> = ({ isOpen, onClose, onAdd, loading }) => {
-  const [folderName, setFolderName] = useState('');
+const UserAddFolderModal: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  onAdd,
+  loading,
+  initialValue = '',
+  title = '새 폴더 만들기',
+  submitText = '만들기'
+}) => {
+  const [folderName, setFolderName] = useState(initialValue);
+
+  useEffect(() => {
+    if (isOpen) {
+      setFolderName(initialValue);
+    }
+  }, [isOpen, initialValue]);
 
   if (!isOpen) return null;
 
@@ -28,7 +45,7 @@ const UserAddFolderModal: React.FC<Props> = ({ isOpen, onClose, onAdd, loading }
         animate={{ scale: 1, opacity: 1 }}
         className="bg-white dark:bg-zinc-800 rounded-lg p-6 w-full max-w-md mx-4"
       >
-        <h2 className="text-xl font-semibold mb-4 dark:text-white">새 폴더 만들기</h2>
+        <h2 className="text-xl font-semibold mb-4 dark:text-white">{title}</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -56,7 +73,7 @@ const UserAddFolderModal: React.FC<Props> = ({ isOpen, onClose, onAdd, loading }
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
-                '만들기'
+                submitText
               )}
             </button>
           </div>

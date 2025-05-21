@@ -9,6 +9,7 @@ export interface FolderRecipe {
   difficulty: string;
   material_price: string;
   created_at: string;
+  category: string;
 }
 
 export interface Folder {
@@ -38,7 +39,8 @@ export async function fetchFavoriteFolders() {
           cook_time,
           difficulty,
           material_price,
-          created_at
+          created_at,
+          category
         )
       )
     `)

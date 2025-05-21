@@ -115,6 +115,7 @@ export interface FolderRecipe {
   difficulty: string;
   material_price: string;
   created_at: string;
+  category: string;
 }
 
 export interface Folder {

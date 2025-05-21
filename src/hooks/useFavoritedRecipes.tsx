@@ -8,6 +8,8 @@ export const useFavoriteFolders = (userId: string | null) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [isRenaming, setIsRenaming] = useState<string | null>(null);
 
   const fetchData = async () => {
     if (!userId) return;
@@ -31,23 +33,23 @@ export const useFavoriteFolders = (userId: string | null) => {
 
   const handleDeleteFolder = async (folderId: string) => {
     try {
-      setLoading(true);
+      setIsDeleting(folderId);
       setError(null);
       await deleteFavoriteFolder(folderId);
       setFolders(prev => prev.filter(folder => folder.id !== folderId));
       toast.success("폴더가 삭제되었습니다.");
     } catch (err) {
-      console.error("폴더 삭제 실패:", err);
+      console.error("폴더 삭제 실패 -->", err);
       setError("폴더 삭제에 실패했습니다.");
       toast.error("폴더 삭제에 실패했습니다.");
     } finally {
-      setLoading(false);
+      setIsDeleting(null);
     }
   };
 
   const handleRenameFolder = async (folderId: string, newName: string) => {
     try {
-      setLoading(true);
+      setIsRenaming(folderId);
       setError(null);
       await renameFavoriteFolder(folderId, newName);
       setFolders(prev => prev.map(folder => 
@@ -55,11 +57,11 @@ export const useFavoriteFolders = (userId: string | null) => {
       ));
       toast.success("폴더 이름이 변경되었습니다.");
     } catch (err) {
-      console.error("폴더 이름 변경 실패:", err);
+      console.error("폴더 이름 변경 실패  -->", err);
       setError("폴더 이름 변경에 실패했습니다.");
       toast.error("폴더 이름 변경에 실패했습니다.");
     } finally {
-      setLoading(false);
+      setIsRenaming(null);
     }
   };
 
@@ -71,7 +73,7 @@ export const useFavoriteFolders = (userId: string | null) => {
       setFolders(prev => [{ ...newFolder, count: 0, recipes: [] }, ...prev]);
       toast.success("새 폴더가 생성되었습니다.");
     } catch (err) {
-      console.error("폴더 생성 실패:", err);
+      console.error("폴더 생성 실패  -->", err);
       setError("폴더 생성에 실패했습니다.");
       toast.error("폴더 생성에 실패했습니다.");
     } finally {
@@ -83,6 +85,8 @@ export const useFavoriteFolders = (userId: string | null) => {
     folders, 
     loading,
     isCreating,
+    isDeleting,
+    isRenaming,
     error, 
     deleteFolder: handleDeleteFolder,
     renameFolder: handleRenameFolder,

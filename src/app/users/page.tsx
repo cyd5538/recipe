@@ -22,7 +22,7 @@ const UserPage = () => {
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <h1 className="text-3xl font-bold my-4">My Page</h1>
         {/* 탭 버튼 */}
-        <UserTabs activeTab={activeTab} setActiveTab={setActiveTab}/>
+        <UserTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         {/* 탭 콘텐츠 */}
         <div className="mt-6">
           <motion.div
@@ -32,11 +32,11 @@ const UserPage = () => {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.2 }}
           >
-            {activeTab === "profile" && <UserProfileEdit userId={userId}/>}
-            {activeTab === "my-posts" && <UserRecipes userId={userId}/>}
-            {activeTab === "favorites" && <UserFavorite userId={userId}/>}
-            {activeTab === "likes" && <UserLike userId={userId}/>}
-            {activeTab === "ai-posts" && <UserAiPosts userId={userId}/>}
+            {activeTab === "profile" && <UserProfileEdit userId={userId} />}
+            {activeTab === "my-posts" && <UserRecipes userId={userId} />}
+            {activeTab === "favorites" && <UserFavorite userId={userId} />}
+            {activeTab === "likes" && <UserLike userId={userId} />}
+            {activeTab === "ai-posts" && <UserAiPosts userId={userId} />}
           </motion.div>
         </div>
       </div>
