@@ -1,5 +1,6 @@
 import Label from "@/components/ui/Label";
 import Input from "@/components/ui/Input";
+import { useRef } from "react";
 
 interface Props {
   id: string;
@@ -10,10 +11,20 @@ interface Props {
 }
 
 const LabeledInput = ({ id, type, label, value, onChange }: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
-    <div>
-      <Label htmlFor={id} text={label} className="mb-2" />
-      <Input type={type} id={id} value={value} onChange={onChange} />
+    <div className="flex flex-col gap-2">
+      <label htmlFor={id} className="text-sm font-medium">
+        {label}
+      </label>
+      <Input 
+        ref={inputRef}
+        type={type} 
+        id={id} 
+        value={value} 
+        onChange={onChange} 
+      />
     </div>
   );
 };
