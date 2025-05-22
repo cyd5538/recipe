@@ -4,9 +4,18 @@ import { FaRegHeart } from "react-icons/fa";
 import { motion } from "framer-motion";
 import FavoriteFolderModal from "./FavoriteFolderModal";
 import { useRecipeFavorite } from "@/hooks/useRecipeFavorite";
+import { Folder } from '@/types/type';
 
 interface Props {
   recipeId: string;
+}
+
+interface FavoriteFolderModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSelect: (folder: Folder) => void;
+  folders: (Folder & { recipes: any[] })[];
+  loading: boolean;
 }
 
 const RecipeFavoriteButton: React.FC<Props> = ({ recipeId }) => {
@@ -44,13 +53,16 @@ const RecipeFavoriteButton: React.FC<Props> = ({ recipeId }) => {
 
       <FavoriteFolderModal
         isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-        }}
+        onClose={() => setIsModalOpen(false)}
         folders={folders}
-        onCreateFolder={handleFolderCreate}
-        onSelectFolder={handleFolderSelect}
-        error={error}
+        onSelect={async (folder) => {
+          try {
+            await handleFolderSelect(folder.id);
+            setIsModalOpen(false);
+          } catch (error) {
+            console.error('폴더 선택 중 오류:', error);
+          }
+        }}
         loading={loading}
       />
     </>
