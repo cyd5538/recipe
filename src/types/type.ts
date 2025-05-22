@@ -124,3 +124,22 @@ export interface Folder {
   count: number;
   recipes: FolderRecipe[];
 }
+
+export interface RecipeFormData {
+  user_id: string;
+  title: string;
+  content: string;
+  category: string;
+  cook_time: string;
+  difficulty: string;
+  material_price: string;
+  thumbnail_url: string | null;
+  ingredients: string[];
+  steps: { description: string; image: File | string | null; }[];
+}
+
+export interface RecipeTag {
+  tags?: {
+    name: string;
+  };
+}

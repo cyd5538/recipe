@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/client";
-import { PopularTag, RecipeData } from "@/types/type";
+import { PopularTag, RecipeData, RecipeFormData, RecipeTag } from "@/types/type";
 import { toast } from "sonner";
 
 const supabase = createClient();
@@ -34,7 +34,7 @@ export const uploadThumbnail = async (userId: string, thumbnail: File) => {
 };
 
 // 레시피 데이터 삽입 함수
-export const insertRecipe = async (recipeData: RecipeData) => {
+export const insertRecipe = async (recipeData: RecipeFormData) => {
   try {
     const { data, error } = await supabase
       .from("recipes")
@@ -55,7 +55,7 @@ export const insertRecipe = async (recipeData: RecipeData) => {
 };
 
 // 레시피 데이터 수정 함수
-export const updateRecipe = async (recipeId: string, recipeData: RecipeData) => {
+export const updateRecipe = async (recipeId: string, recipeData: RecipeFormData) => {
   try {
     const { error } = await supabase
       .from("recipes")
@@ -90,7 +90,7 @@ export const getRecipeById = async (recipeId: string) => {
   }
 
   // recipe_tags 배열에서 tag name만 추출
-  const tags = recipe.recipe_tags?.map((tag) => tag.tags?.name).filter(Boolean) || [];
+  const tags = recipe.recipe_tags?.map((tag: RecipeTag) => tag.tags?.name).filter(Boolean) || [];
 
   return { ...recipe, tags };
 };
