@@ -4,25 +4,21 @@ import { X, FolderPlus } from "lucide-react";
 import { FolderList } from "./recipe_favorite/FolderList";
 import { CreateFolderForm } from "./recipe_favorite/CreateFolderForm";
 import { ModalActions } from "./recipe_favorite/ModalActions";
-import { Folder } from "@/types/type";
+import { Folder, FolderRecipe } from "@/types/type";
 
 interface FavoriteFolderModalProps {
   isOpen: boolean;
   onClose: () => void;
-  folders: Folder[];
-  onCreateFolder: (folderName: string) => Promise<void>;
-  onSelectFolder: (folderId: string) => Promise<void>;
-  error: string | null;
+  onSelect: (folder: Folder) => void;
+  folders: (Omit<Folder, 'recipes'> & { recipes?: FolderRecipe[] })[];
   loading: boolean;
 }
 
 const FavoriteFolderModal: React.FC<FavoriteFolderModalProps> = ({
   isOpen,
   onClose,
+  onSelect,
   folders,
-  onCreateFolder,
-  onSelectFolder,
-  error,
   loading,
 }) => {
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
@@ -33,15 +29,17 @@ const FavoriteFolderModal: React.FC<FavoriteFolderModalProps> = ({
   };
 
   const handleCreateFolder = async (folderName: string) => {
-    await onCreateFolder(folderName);
+    await onSelect(folders.find(f => f.name === folderName) as Folder);
     setIsCreatingFolder(false);
   };
 
   const handleConfirm = async () => {
     if (selectedFolder) {
-      await onSelectFolder(selectedFolder);
+      await onSelect(folders.find(f => f.name === selectedFolder) as Folder);
     }
   };
+
+  const normalizedFolders = folders.map(f => ({ ...f, recipes: f.recipes ?? [] }));
 
   if (!isOpen) return null;
 
@@ -77,12 +75,6 @@ const FavoriteFolderModal: React.FC<FavoriteFolderModalProps> = ({
             </button>
           </div>
 
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm">
-              {error}
-            </div>
-          )}
-
           {isCreatingFolder ? (
             <CreateFolderForm
               onSubmit={handleCreateFolder}
@@ -92,7 +84,7 @@ const FavoriteFolderModal: React.FC<FavoriteFolderModalProps> = ({
           ) : (
             <>
               <FolderList
-                folders={folders}
+                folders={normalizedFolders}
                 selectedFolder={selectedFolder}
                 onSelect={handleFolderSelect}
               />
