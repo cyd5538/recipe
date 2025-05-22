@@ -3,6 +3,11 @@ import { RecipeData } from "@/types/type";
 import { useEffect, useState } from "react";
 import { useDebounce } from "./useDebounce";
 
+interface TagRelation {
+  recipe_id: string;
+  tags: { id: string; name: string }[];
+}
+
 export const useSearchRecipes = (search: string, page: number, pageSize: number) => {
   const supabase = createClient();
   const [results, setResults] = useState<RecipeData[]>([]);
@@ -77,10 +82,16 @@ export const useSearchRecipes = (search: string, page: number, pageSize: number)
 
         // 태그 매핑
         const tagMap: Record<string, string[]> = {};
-        recipeTagRelations?.forEach(rel => {
-          if (!tagMap[rel.recipe_id]) tagMap[rel.recipe_id] = [];
-          tagMap[rel.recipe_id].push(rel.tags.name);
-        });
+        if (recipeTagRelations) {
+          (recipeTagRelations as TagRelation[]).forEach((rel) => {
+            if (!rel.tags || !Array.isArray(rel.tags)) return;
+            const recipeId = rel.recipe_id;
+            rel.tags.forEach(tag => {
+              if (!tagMap[recipeId]) tagMap[recipeId] = [];
+              tagMap[recipeId].push(tag.name);
+            });
+          });
+        }
 
         // 태그 각각 레시피에 추가
         const recipesWithTags: RecipeData[] = paginated.map(recipe => ({
