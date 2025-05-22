@@ -8,3 +8,7 @@ export const navItems = [
   { href: "/signup", text: "회원가입", authRequired: false },
   { text: "로그아웃", authRequired: true },
 ];
+
+export const authItems = navItems.filter(item => 
+  item.authRequired === false || item.text === "로그아웃"
+);
