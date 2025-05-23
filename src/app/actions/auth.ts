@@ -1,6 +1,21 @@
 'use server'
 
 import { createClient } from '@/lib/server'
+import { User } from '@/types/type'
+
+const transformSupabaseUser = (supabaseUser: any): User => {
+  return {
+    id: supabaseUser.id,
+    email: supabaseUser.email,
+    avatar_url: supabaseUser.user_metadata?.avatar_url || null,
+    full_name: supabaseUser.user_metadata?.full_name || '',
+    is_active: true,
+    last_sign_in: supabaseUser.last_sign_in_at || new Date().toISOString(),
+    provider: supabaseUser.app_metadata?.provider || 'email',
+    nickname: supabaseUser.user_metadata?.nickname || null,
+    created_at: supabaseUser.created_at
+  };
+};
 
 export async function login(email: string, password: string) {
   const supabase = await createClient();
@@ -31,11 +46,9 @@ export async function login(email: string, password: string) {
     };
   }
 
-  return { success: true, message: "로그인 완료!", user: data.user };
+  const transformedUser = transformSupabaseUser(data.user);
+  return { success: true, message: "로그인 완료!", user: transformedUser };
 }
-
-
-
 
 export const signup = async (email: string, password: string) => {
   const supabase = await createClient();
