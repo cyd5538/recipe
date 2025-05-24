@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createClient } from "@/lib/client";
+import { AiRecipe } from "@/types/type";
 
 export const askAiRecipe = async (prompt: string): Promise<string> => {
   const res = await axios.post("/api/ask-ai", { prompt }, {
@@ -85,3 +86,44 @@ export const getAiRecipesByUserId = async (userId: string) => {
 
   return data || []
 };
+
+const ITEMS_PER_PAGE = 12;
+
+export interface PaginatedResponse {
+  data: AiRecipe[];
+  total: number;
+  page: number;
+  totalPages: number;
+}
+
+export const aiRecipeService = {
+  async getRecipes(page: number = 1): Promise<PaginatedResponse> {
+    const supabase = createClient();
+    
+    // 전체 개수를 가져오기 위한 카운트
+    const { count } = await supabase
+      .from("ai_recipes")
+      .select("*", { count: "exact", head: true });
+
+    // 페이지네이션된 데이터 가져오기
+    const { data, error } = await supabase
+      .from("ai_recipes")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .range((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE - 1);
+
+    if (error) {
+      throw error;
+    }
+
+    const total = count || 0;
+    const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+
+    return {
+      data: data || [],
+      total,
+      page,
+      totalPages,
+    };
+  },
+}; 

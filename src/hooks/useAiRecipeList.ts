@@ -1,26 +1,23 @@
 import { useState, useEffect } from "react";
-import { createClient } from "@/lib/client";
 import { AiRecipe } from "@/types/type";
+import { aiRecipeService } from "@/lib/aiRecipeService";
 
-export const useAiRecipeList = () => {
+export const useAiRecipeList = (initialPage: number = 1) => {
   const [recipes, setRecipes] = useState<AiRecipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [page, setPage] = useState(initialPage);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from("ai_recipes")
-          .select("*")
-          .order("created_at", { ascending: false });
-
-        if (error) {
-          throw error;
-        }
-
-        setRecipes(data || []);
+        setLoading(true);
+        const response = await aiRecipeService.getRecipes(page);
+        setRecipes(response.data);
+        setTotalPages(response.totalPages);
+        setTotal(response.total);
       } catch (err) {
         setError(err instanceof Error ? err : new Error("레시피를 불러오는데 실패했습니다."));
         console.error("레시피 불러오기 실패 -->", err);
@@ -30,7 +27,35 @@ export const useAiRecipeList = () => {
     };
 
     fetchRecipes();
-  }, []);
+  }, [page]);
 
-  return { recipes, loading, error };
+  const goToPage = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  return {
+    recipes,
+    loading,
+    error,
+    page,
+    totalPages,
+    total,
+    goToPage,
+    goToNextPage,
+    goToPrevPage,
+  };
 }; 
