@@ -1,42 +1,31 @@
 "use client";
 
 import Header from "@/components/layout/header/Header";
-import { useEffect, useState } from "react";
-import { createClient } from "@/lib/client";
 import Loading from "@/components/ui/loading";
 import { AiRecipe } from "@/types/type";
 import AiRecipeCard from "@/components/airecipe/AiRecipeCard";
 import AiWriteButton from "@/components/airecipe/AiWriteButton";
+import { useAiRecipeList } from "@/hooks/useAiRecipeList";
 
 const AiRecipePage = () => {
-  const [recipes, setRecipes] = useState<AiRecipe[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from("ai_recipes")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        console.error("레시피 불러오기 실패:", error);
-        return;
-      }
-
-      setRecipes(data || []);
-      setLoading(false);
-    };
-
-    fetchRecipes();
-  }, []);
+  const { recipes, loading, error } = useAiRecipeList();
 
   if (loading) {
     return (
       <>
         <Header />
         <Loading className="w-full h-screen flex justify-center items-center" />
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Header />
+        <div className="container mx-auto px-4 py-8 max-w-5xl">
+          <div className="text-red-500">에러가 발생했습니다: {error.message}</div>
+        </div>
       </>
     );
   }
