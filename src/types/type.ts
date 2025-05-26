@@ -37,6 +37,8 @@ export interface RecipeData {
   author_nickname: string;    
   author_avatar_url: string;     
   is_favorited: boolean; 
+  follower_count: number;
+  following_count: number;
 }
 
 export interface RecipeLocalStorage {
@@ -60,6 +62,8 @@ export interface User {
   last_sign_in: string;
   provider: string;
   nickname: string | null
+  followings_count: number;
+  followers_count: number;
 }
 
 export type CommentUser = Pick<User, "nickname" | "avatar_url">;
