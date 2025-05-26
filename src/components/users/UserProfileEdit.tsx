@@ -20,7 +20,7 @@ const UserProfileEdit: React.FC<Props> = ({ userId }) => {
   const [nickname, setNickname] = useState<string>("");
   const [preview, setPreview] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  console.log(userCoin)
+
   useEffect(() => {
     if (userData?.nickname) setNickname(userData.nickname);
   }, [userData]);
