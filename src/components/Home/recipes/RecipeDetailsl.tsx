@@ -78,7 +78,7 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({
 
         <div className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400">
           <Clock className="w-4 h-4" />
-          <span>{cookingTime}분</span>
+          <span>{cookingTime}</span>
         </div>
       </div>
     </div>
