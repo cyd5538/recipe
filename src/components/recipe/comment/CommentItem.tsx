@@ -4,6 +4,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import ReplyInput from "./ReplyInput";
 import ReplyList from "./ReplyList";
 import { Comment } from "@/types/type";
+import Link from "next/link";
 
 interface Props {
   comment: Comment;
@@ -38,14 +39,16 @@ const CommentItem: React.FC<Props> = ({
   return (
     <div className="p-3 border rounded-md bg-white dark:bg-zinc-800">
       <div className="flex gap-2 items-start">
-        <div className="relative w-8 h-8 rounded-full overflow-hidden border">
-          <Image
-            src={comment.user.avatar_url ? comment.user.avatar_url :  "/avatar.webp"}
-            alt="reply avatar"
-            fill
-            className="object-cover"
-          />
-        </div>
+        <Link href={`/users?id=${comment.user_id}`}>
+          <div className="relative w-8 h-8 rounded-full overflow-hidden border">
+            <Image
+              src={comment.user.avatar_url ? comment.user.avatar_url :  "/avatar.webp"}
+              alt="reply avatar"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </Link>
         <div className="flex-1">
           <div className="flex justify-between text-sm">
             <span className="font-semibold text-[12px]">{comment.user.nickname}</span>
