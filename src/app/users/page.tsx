@@ -14,11 +14,23 @@ const UserPage: React.FC = () => {
   const userId = searchParams.get("id");
   const { user } = useAuthStore();
 
-  const isMyPage = useMemo(() => user?.id === userId, [user, userId]);
+  const isMyPage = useMemo(() => {
+    if (!user || !userId) return false;
+    return user.id.toString() === userId;
+  }, [user, userId]);
 
   const [activeTab, setActiveTab] = useState<
     "profile" | "my-posts" | "favorites" | "likes" | "ai-posts"
   >("profile");
+
+  // userId가 없으면 잘못된 접근 처리
+  if (!userId) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <p className="text-center text-red-500">잘못된 접근입니다. URL에 유저 ID가 없습니다.</p>
+      </div>
+    );
+  }
 
   return (
     <div>
