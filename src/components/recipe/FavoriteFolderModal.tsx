@@ -35,7 +35,7 @@ const FavoriteFolderModal: React.FC<FavoriteFolderModalProps> = ({
 
   const handleConfirm = async () => {
     if (selectedFolder) {
-      await onSelect(folders.find(f => f.name === selectedFolder) as Folder);
+      await onSelect(folders.find(f => f.id === selectedFolder) as Folder);
     }
   };
 

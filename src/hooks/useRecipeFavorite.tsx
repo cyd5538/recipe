@@ -89,6 +89,7 @@ export const useRecipeFavorite = ({ recipeId }: UseRecipeFavoriteProps): UseReci
       const isAlreadyFavorited = await checkIsFavorited(recipeId);
       if (isAlreadyFavorited) {
         setError("이미 즐겨찾기에 추가된 레시피입니다.");
+        toast.error("이미 즐겨찾기에 추가된 레시피입니다.");
         return;
       }
 
@@ -103,6 +104,7 @@ export const useRecipeFavorite = ({ recipeId }: UseRecipeFavoriteProps): UseReci
 
       if (existingRecipe) {
         setError("이미 이 폴더에 추가된 레시피입니다.");
+        toast.error("이미 이 폴더에 추가된 레시피입니다.");
         return;
       }
 
