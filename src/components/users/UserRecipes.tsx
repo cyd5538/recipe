@@ -10,12 +10,13 @@ interface Prop {
 }
 
 const UserRecipes: React.FC<Prop> = ({ userId, isMyPage }) => {
-  const { userData, userRecipes, loading, error } = useUserData(userId as string, isMyPage)
+  const { userData, userRecipes, loading, error } = useUserData(userId);
 
   if (loading) return <div className="mt-36"><Loading /></div>;
   if (error) return <div className="text-center py-8 text-red-500">{error}</div>;
-  if (!userData) return <div className="text-center py-8">사용자 정보를 찾을 수 없습니다.</div>;
-
+  if (userRecipes.length === 0) return <div className="text-center py-8 text-gray-500">아직 작성한 글이 없습니다.</div>;
+  if (!userData) return <div className="text-center py-8 text-gray-500">유저 정보가 없습니다.</div>;
+  
   return (
     <div className="space-y-8">
       {!isMyPage && <OtherUserProfile userData={userData} recipeCount={userRecipes.length} />}
