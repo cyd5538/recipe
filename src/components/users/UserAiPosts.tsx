@@ -15,7 +15,8 @@ const UserAiPosts: React.FC<UserAiPostsProps> = ({ userId }) => {
 
   if (loading) return <div className="mt-36"><Loading /></div>;
   if (error) return <div className="text-center py-8 text-red-500">{error}</div>;
-
+  if (!data || data.length === 0) return <div className="text-center py-8 text-gray-500">아직 Ai로 생성한 한 글이 없습니다.</div>;
+  
   return (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
