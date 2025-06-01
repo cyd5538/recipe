@@ -9,6 +9,7 @@ import { useAuthStore } from '@/store/authStore'
 import { navItems } from '@/constants/navItems'
 import { createClient } from '@/lib/client';
 import { toast } from 'sonner';
+import { NotificationPopover } from './NotificationPopover';
 
 const Header = () => {
   const { user } = useAuthStore();
@@ -67,7 +68,7 @@ const Header = () => {
               );
             })}
           </nav>
-
+          {user ? <NotificationPopover /> : <></> }
 
           {/* 테마 토글과 모바일 메뉴 */}
           <div className="flex items-center gap-2">
