@@ -38,7 +38,7 @@ const OtherUserProfile: React.FC<Prop> = ({ userData, recipeCount }) => {
         {/* Avatar */}
         <div className="relative w-24 h-24">
           <Image
-            src={localUserData.avatar_url || "/images/default-avatar.png"}
+            src={localUserData.avatar_url || "/avatar.webp"}
             alt="user-avatar"
             fill
             className="rounded-full object-cover border-2 border-gray-200 dark:border-zinc-700"
@@ -48,7 +48,7 @@ const OtherUserProfile: React.FC<Prop> = ({ userData, recipeCount }) => {
         {/* Info */}
         <div className="flex-1">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold">{localUserData.nickname || "익명 사용자"}</h1>
+            <h1 className="text-2xl font-bold">{localUserData.nickname || "닉네임지정X"}</h1>
             <CustomButton
               onClick={handleFollow}
               disabled={loading}

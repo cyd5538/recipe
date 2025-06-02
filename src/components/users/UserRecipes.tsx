@@ -14,7 +14,6 @@ const UserRecipes: React.FC<Prop> = ({ userId, isMyPage }) => {
 
   if (loading) return <div className="mt-36"><Loading /></div>;
   if (error) return <div className="text-center py-8 text-red-500">{error}</div>;
-  if (userRecipes.length === 0) return <div className="text-center py-8 text-gray-500">아직 작성한 글이 없습니다.</div>;
   if (!userData) return <div className="text-center py-8 text-gray-500">유저 정보가 없습니다.</div>;
   
   return (
