@@ -11,39 +11,27 @@ export const useAiRecipeList = (initialPage: number = 1) => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        setLoading(true);
-        const response = await aiRecipeService.getRecipes(page);
-        setRecipes(response.data);
-        setTotalPages(response.totalPages);
-        setTotal(response.total);
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("레시피를 불러오는데 실패했습니다."));
-        console.error("레시피 불러오기 실패 -->", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRecipes();
+    fetchRecipes(page);
   }, [page]);
+
+  const fetchRecipes = async (page: number) => {
+    try {
+      setLoading(true);
+      const { data, totalPages, total } = await aiRecipeService.getRecipes(page);
+      setRecipes(data);
+      setTotalPages(totalPages);
+      setTotal(total);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("레시피를 불러오는데 실패했습니다."));
+      console.error("레시피 불러오기 실패 -->", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const goToPage = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
-    }
-  };
-
-  const goToNextPage = () => {
-    if (page < totalPages) {
-      setPage(page + 1);
-    }
-  };
-
-  const goToPrevPage = () => {
-    if (page > 1) {
-      setPage(page - 1);
     }
   };
 
@@ -55,7 +43,7 @@ export const useAiRecipeList = (initialPage: number = 1) => {
     totalPages,
     total,
     goToPage,
-    goToNextPage,
-    goToPrevPage,
+    goToNextPage: () => goToPage(page + 1),
+    goToPrevPage: () => goToPage(page - 1),
   };
-}; 
+};
