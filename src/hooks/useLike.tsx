@@ -37,7 +37,7 @@ export const useLike = ({
         .eq("user_id", userId)
         .eq("recipe_id", recipeId)
         .limit(1)
-        .maybeSingle(); 
+        .maybeSingle();
 
       if (error) {
         console.error("좋아요 확인 오류:", error.message);
@@ -60,6 +60,7 @@ export const useLike = ({
 
     try {
       if (liked) {
+        // 좋아요 취소
         const { error } = await supabase
           .from("recipe_likes")
           .delete()
@@ -72,6 +73,7 @@ export const useLike = ({
         setLikesCount((prev) => prev - 1);
         toast.success("좋아요 취소 💔");
       } else {
+        // 좋아요 추가
         const { error } = await supabase
           .from("recipe_likes")
           .insert({ user_id: userId, recipe_id: recipeId });
@@ -81,10 +83,39 @@ export const useLike = ({
         setLiked(true);
         setLikesCount((prev) => prev + 1);
         toast.success("좋아요 ❤️");
+
+        // 레시피 작성자에게 알림 보내기
+        const { data: recipe, error: recipeError } = await supabase
+          .from("recipes")
+          .select("user_id")
+          .eq("id", recipeId)
+          .single();
+
+        if (recipeError) {
+          console.error("레시피 정보 조회 실패:", recipeError.message);
+        } else if (recipe.user_id !== userId) {
+          const { error: notifyError } = await supabase
+            .from("notifications")
+            .insert({
+              recipient_id: recipe.user_id,
+              sender_id: userId,
+              type: "like",
+              entity_id: recipeId,
+              is_read: false,
+              message: null,
+            });
+
+          if (notifyError) {
+            console.error("알림 전송 실패:", notifyError.message);
+          }
+        }
       }
-    } catch (err: any) {
-      toast.error("좋아요 처리 중 오류가 발생했습니다.");
-      console.error("좋아요 에러:", err.message);
+    } catch (err:unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("좋아요 처리 중 오류가 발생했습니다.");
+      }
     } finally {
       setLoading(false);
     }
